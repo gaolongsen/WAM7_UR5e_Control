@@ -83,7 +83,7 @@ pip3 install -e .
 
 ### Environment in Mujoco
 
-![](/home/agman-high/Dropbox/WAM7_UR5e_Control/WAM_UR5_Control/Pic/WAM.png)
+![](![img](https://raw.githubusercontent.com/gaolongsen/WAM7_UR5e_Control/main/WAM_UR5_Control/Pic/WAM.png))
 
 
 
