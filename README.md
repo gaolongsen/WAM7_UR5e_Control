@@ -9,7 +9,7 @@
 <table style="border:0px">
 <tr style="border:0px">
 <td style="border:0px">
-<img src="https://raw.githubusercontent.com/gaolongsen/WAM7_UR5e_Control/main/WAM_UR5_Control/Pic/lobo.png" width="400"></td>
+<img src="https://raw.githubusercontent.com/gaolongsen/WAM7_UR5e_Control/main/WAM_UR5_Control/Pic/lobo.png" width="600"></td>
 <td style="border:0px">
 The project is for two robot arm—— WAM 7 Dof(with Barrett 282H robot hand) and UR5e 6 Dof(with 2 DoF gripper) working together in our Lab enviroment. Welcome anyone come up with any question and give us your avaliable corrections about that!
 <ul>
@@ -19,6 +19,7 @@ The project is for two robot arm—— WAM 7 Dof(with Barrett 282H robot hand) a
 </td>
 </tr>
 </table><br>
+
 
 ## Before Getting going
 
