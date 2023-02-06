@@ -27,8 +27,8 @@ if __name__ == "__main__":
 
     print(robot_wam)
     print(robot_ur5)
-    Te = robot_wam.fkine(WAM_pose)
-    Te_u = robot_ur5.fkine(UR5_pose)
+    Te = robot_wam.fkine(WAM_pose)      # Get SE(3) for the end-effector of WAM
+    Te_u = robot_ur5.fkine(UR5_pose)    # Get SE(3) for the end-effector of UR5
     print(Te)
     print(Te_u)
 
@@ -56,27 +56,26 @@ if __name__ == "__main__":
     print(robot_wam.fkine(q_pickup))
     test = q_pickup.tolist()
     robot_wam = MjWam7_pure(render=True)
-    # finger1 = HFinger1(render=True)
-
-    # robot = MjWam4(render=True)
+    robot_ur5 = UR5_pure(render=True)
 
     # goal_pos = np.ones(robot.n_dof)
     # os.system('sh /home/wam/Desktop/test1.sh')
     goal_vel = np.zeros(robot_wam.n_dof)
+    goal_vel_u = np.zeros(robot_ur5.n_dof)
     max_time = 10.
-    # robot.set_mocap_pos('endeff_des', x_des)
-    arm_init = [0.286, 0.78, 0.392, 0.535, -1.84, 0, 0]
 
     robot_wam.set_mocap_pos('endeff_des', end_pos)
     robot_wam.start_spinning()
+    # robot_ur5.start_spinning()
     # define a high level task...
     # robot.goto_joint_cubic([1.571, 0.5, 0.0, 0.0, 1.9, 0.0, 0.5, 2.33, 0.84, 0.0, 2.33, 0.84, 0, 2.33, 0.84],
     # goal_vel, max_time)
     # time.sleep(1)
     # ...and wait until it is done.
     # robot.wait_for_task()
-    robot_wam.goto_joint_cubic(test,
-                           goal_vel, max_time)
+    robot_wam.goto_joint_cubic(test, goal_vel, max_time)
+    # robot_ur5.goto_joint_cubic(UR5_pose, goal_vel_u, max_time)
+    # robot_ur5.wait_for_task()
 
     robot_wam.wait_for_task()
 
