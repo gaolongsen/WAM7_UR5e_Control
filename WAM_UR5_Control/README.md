@@ -32,9 +32,11 @@ Our Project depends on Petercorke Lib - **Robotics Toolbox for Python** which is
 
 [Link for Google Doc tutorial.](https://docs.google.com/document/d/1OZ0ddXQztCEghgmXmJa1to4vAGpymkuLdKgb8dG8sik/edit?usp=sharing) 
 
+### Install Robotics Toolbox
 
+#### Option 1: Using pip
 
-### Using pip
+**Note**: *Make sure you are in your anaconda environment with mujoco_py in your terminal!*
 
 Install a snapshot from PyPI
 
@@ -55,7 +57,7 @@ pip3 install roboticstoolbox-python[optionlist]
 [Swift](https://github.com/jhavl/swift), a web-based visualizer, is
 installed as part of Robotics Toolbox.
 
-### From GitHub
+#### Option 2: From GitHub
 
 To install the bleeding-edge version from GitHub
 
@@ -65,7 +67,9 @@ cd robotics-toolbox-python
 pip3 install -e .
 ```
 
+### Modify the Robotics Toolbox package
 
+For UR5 robot, you don't need to add anything for that due to the package has anything about. But for WAM, you need import WAM robot information to the toolbox package. We will contact with the the author of the toolbox and upload the WAM robot description to the package in the future. Go to this [link](https://github.com/gaolongsen/Package_Adding_WAM) to see how to import the WAM to the robotics toolbox package for python. 
 
 ### Environment in Mujoco
 
