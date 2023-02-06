@@ -26,7 +26,7 @@ Our Project depends on Petercorke Lib - **Robotics Toolbox for Python** which is
 
 ### Install Mujoco, Anaconda, Cuda, Mujoco_py on your Ubuntu 20.04 system
 
-*This part is only for our lab member tutorial.* We assume you know how to do that and all setup have been finished on your own PC. 
+*This part is **only** for our lab member tutorial.* We assume you know how to do that and all setups have been finished on your own PC. 
 
 
 
