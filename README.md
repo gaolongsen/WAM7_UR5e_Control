@@ -14,7 +14,7 @@
 The project is for two robot arm—— WAM 7 Dof(with Barrett 282H robot hand) and UR5e 6 Dof(with 2 DoF gripper) working together in our Lab enviroment. Welcome anyone come up with any question and give us your avaliable corrections about that!
 <ul>
 <li><a href="https://github.com/gaolongsen/WAM7_UR5e_Control/tree/main/WAM_UR5_Control">GitHub repository </a></li>
-<li><a href="https://petercorke.github.io/robotics-toolbox-python">Documentation</a></li>
+<li><a href="https://github.com/gaolongsen/Package_Adding_WAM.git">Package Adding for WAM</a></li>
 </ul>
 </td>
 </tr>
