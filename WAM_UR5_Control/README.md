@@ -9,7 +9,7 @@
 <table style="border:0px">
 <tr style="border:0px">
 <td style="border:0px">
-<img src="https://raw.githubusercontent.com/gaolongsen/WAM7_UR5e_Control/main/WAM_UR5_Control/Pic/lobo.png" width="200"></td>
+<img src="https://raw.githubusercontent.com/gaolongsen/WAM7_UR5e_Control/main/WAM_UR5_Control/Pic/lobo.png" width="400"></td>
 <td style="border:0px">
 The project is for two robot arm—— WAM 7 Dof(with Barrett 282H robot hand) and UR5e 6 Dof(with 2 DoF gripper) working together in our Lab enviroment. Welcome anyone come up with any question and give us your avaliable corrections about that!
 <ul>
@@ -18,21 +18,7 @@ The project is for two robot arm—— WAM 7 Dof(with Barrett 282H robot hand) a
 </ul>
 </td>
 </tr>
-</table>
-
-<!-- <br> -->
-
-## Contents
-
-- [Before Getting going](#2)
-- [Tutorials](#3)
-- [Code Examples](#4)
-- [Toolbox Research Applications](#5)
-- [Toolbox ICRA Paper and Citation Info](#6)
-- [Using the Toolbox in your Open Source Code?](#7)
-- [Common Issues and Solutions](#8)
-
-<br>
+</table><br>
 
 ## Before Getting going
 
@@ -83,9 +69,15 @@ pip3 install -e .
 
 ### Environment in Mujoco
 
-![](![img](https://raw.githubusercontent.com/gaolongsen/WAM7_UR5e_Control/main/WAM_UR5_Control/Pic/WAM.png))
+WAM Robot without Barrett BH282 hand installed 6 axis Torque/Force sensor(blue cylinder part)
 
+<img src="https://raw.githubusercontent.com/gaolongsen/WAM7_UR5e_Control/main/WAM_UR5_Control/Pic/WAM.png">
 
+Whole scene for WAM and UR5e on Mujoco.
 
+<img src="https://raw.githubusercontent.com/gaolongsen/WAM7_UR5e_Control/main/WAM_UR5_Control/Pic/Whole.png">
 
+Inertia of moment for all components in our environment include satellite model, solar panel model, hybrid hinge system, WAM and UR5. 
+
+<img src="https://raw.githubusercontent.com/gaolongsen/WAM7_UR5e_Control/main/WAM_UR5_Control/Pic/IOM_Whole.png">
 
