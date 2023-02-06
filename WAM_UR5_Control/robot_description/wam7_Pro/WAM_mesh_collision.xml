@@ -1,0 +1,120 @@
+<?xml version="1.0" ?>
+
+<mujoco>
+    <body name="WAM_Link_0" pos="-1.5 0 0" quat="0.707107 0.707107 0 0">
+        <inertial pos="1.5 0.18 0.17" mass="10.2" diaginertia="0.0321107 0.907043 0.884550" />
+        <geom class="viz" mesh="Track_D" material="BasketMat"/>
+        <geom class="col" mesh="Track_D" conaffinity="1" material="BasketMat"/>
+        <!-- pos= <X, Z, -Y> -->
+        <body name="WAM_Link_1" pos="1.5 0.24 0.175" quat="0.707107 -0.707107 0 0">
+            <!-- ### Inertial Ref: (*1, pg.10) unit: [m, kg, kg * m^2] 
+            Note: 
+                - we have to offset the stl model frame to the inertial frame in doc
+                - inertial pos = <Z, -X, Y> + <0.06,-0.01,0.346>
+                - diaginertia = <Lzz, Lxx, Lyy>
+                - **the axis should be based on the orientation notation at the bottom left corner
+            -->
+            <inertial pos="-0.08071720 0.01017671 0.07995294" mass="9.97059584" diaginertia="0.11760385 0.10916849 0.18294303" /> 
+            <site name="wam/mass_sites/base" pos="-0.08071720 0.01017671 0.07995294"/>
+            <joint name="wam/joints/base_base" type="slide" axis="1 0 0" range="-1.25 1.35" armature="1.2"/>
+            <geom class="x_axis"/>
+            <geom class="y_axis"/>
+            <geom class="z_axis"/>
+            <geom class="viz" mesh="base_link_fine" material="RobMat"/>
+            <geom class="col" mesh="base_link_convex" material="RobMat"/>
+            <body name="WAM_Link_2" pos="0 0 0.346">
+                <!-- ### Inertial Ref: (*1, pg.10) unit: [m, kg, kg * m^2] 
+                Note: 
+                    - we have to offset the stl model frame to the inertial frame in doc
+                - inertial pos = <X, Z, -Y> 
+                - diaginertia = <Lxx, Lzz, Lyy>
+                -->
+                <inertial pos="-0.00443422 -0.00066489 -0.12189039" mass="10.76768767" diaginertia="0.13488033 0.09046330 0.11328369" />
+                <site name="wam/mass_sites/shoulder_yaw" pos="-0.00443422 -0.00066489 -0.12189039"/>
+                <joint name="wam/joints/base_yaw" range="-2.6 2.6" armature="1.2"/>
+                <geom class="viz" mesh="shoulder_link_fine" material="RobMat"/>
+                <geom class="col" mesh="shoulder_link_convex_decomposition_p1" material="RobMat"/>
+                <geom class="col" mesh="shoulder_link_convex_decomposition_p2" material="RobMat"/>
+                <geom class="col" mesh="shoulder_link_convex_decomposition_p3" material="RobMat"/>
+                <body name="WAM_Link_3" pos="0 0 0" quat="0.707107 -0.707107 0 0">
+                    <!-- ### Inertial Ref: (*1, pg.14) unit: [m, kg, kg * m^2] 
+                    Note:
+                        - frame correction to the stl: <X, -Z, Y>
+                        - diaginertia = <Lxx, Lzz, Lyy>
+                    -->
+                    <inertial pos="-0.00236983 -0.01542114 0.0" mass="3.87493756" diaginertia="0.02140958 0.01558906 0.01377875" />
+                    <site name="wam/mass_sites/shoulder_pitch" pos="-0.00236983 -0.01542114 0.03105614"/>
+                    <joint name="wam/joints/shoulder_pitch_joint" range="-2.0 2.0" armature="1.2"/>
+                    <geom class="viz" mesh="shoulder_pitch_link_fine" material="RobMat"/>
+                    <geom class="col" mesh="shoulder_pitch_link_convex" material="RobMat"/>
+                    <body name="WAM_Link_4" pos="0 -0.505 0" quat="0.707107 0.707107 0 0">
+                        <!-- ### Inertial Ref: (*1, pg.16) unit: [m, kg, kg * m^2] 
+                        Note: 
+                            - we have to offset the stl model frame to the inertial frame in doc
+                            - pos = <0.045, 0, 0.55> - <0.03825858, 0.00003309, 0.7224923>
+                            - diaginertia = <Lxx, Lzz, Lyy>
+                        -->
+                        <inertial pos="0.00674142 -0.00003309 -0.1724923" mass="1.80228141" diaginertia="0.05911077 0.05927043 0.00324550" />
+                        <site name="wam/mass_sites/upper_arm" pos="-0.03825858 0.00003309 -0.20750770"/>
+                        <joint name="wam/joints/shoulder_yaw" range="-2.8 2.8" armature="1.2"/>
+                        <geom class="viz" mesh="upper_arm_link_fine" pos="0 0 -0.505" material="RobMat"/>
+                        <geom class="col" mesh="upper_arm_link_convex_decomposition_p1" pos="0 0 -0.505" material="RobMat"/>
+                        <geom class="col" mesh="upper_arm_link_convex_decomposition_p2" pos="0 0 -0.505" material="RobMat"/>
+                        <body name="WAM_Link_5" pos="0.045 0 0.045" quat="0.707107 -0.707107 0 0">
+                            <!-- ### Inertial Ref: (*1, pg.22) unit: [m, kg, kg * m^2]
+                            [ Elbow + WristBase (7DOF) ]
+                            Note: 
+                                - 4DOF has a different attribute here
+                                - we have to offset the stl model frame (at the elbow joint) to the inertial frame in doc (z4 aligned with central axis of the elbow)
+                                - pos = <0.00498512 -0.1327162 -0.00022942> - <0.08997024, 0.01600042, 0>
+                                - diaginertia = <Lxx, Lzz, Lyy>
+                            -->
+                            <inertial pos="-0.04498512 -0.14871662 -0.00022942" mass="2.40016804" diaginertia="0.01491672 0.00294463 0.01482922" />
+                            <site name="wam/mass_sites/forearm" pos="0.00498512 -0.13271662 -0.00022942"/>
+                            <joint name="wam/joints/elbow_pitch" range="-0.9 3.14159" armature="1.2"/>
+                            <geom class="viz" mesh="elbow_link_fine" material="GriMat"/>
+                            <geom class="col" mesh="elbow_link_convex" material="GriMat"/>
+                            <geom class="viz" mesh="forearm_link_fine" pos="-.045 -0.0730 0" euler="1.57 0 0" material="RobMat"/>
+                            <geom class="col" mesh="forearm_link_convex_decomposition_p1" pos="-0.045 -0.0730 0" euler="1.57 0 0" material="RobMat"/>
+                            <geom class="col" mesh="forearm_link_convex_decomposition_p2" pos="-.045 -0.0730 0" euler="1.57 0 0" material="RobMat"/>
+                            <body name="WAM_Link_6" pos="-0.045 0.0 0.0" quat="0.707107 0.707107 0 0">
+                                <!-- ### Inertial Ref: (*1, pg.24) unit: [m, kg, kg * m^2] 
+                                - pos = <0.00008921 0.00511217 0.00435824> -> <0.0, 0.0, 0.3>
+                                - diaginertia = <Lxx, Lzz, Lyy>
+                                -->
+                                <inertial pos="0.00008921 0.00511217 0.3" mass="0.12376019" diaginertia="0.00005029 0.00006270 0.00007582" />
+                                <site name="wam/mass_sites/wrist_yaw" pos="0.00008921 0.00435824 -0.00511217"/>
+                                <joint name="wam/joints/wrist_yaw" range="-4.8 1.3" armature="1.2"/>
+                                <geom class="viz" mesh="wrist_yaw_link_fine" pos="0 0 0.3" material="RobMat"/>
+                                <geom class="col" mesh="wrist_yaw_link_convex_decomposition_p1" pos="0 0 0.3" material="RobMat"/>
+                                <geom class="col" mesh="wrist_yaw_link_convex_decomposition_p2" pos="0 0 0.3" material="RobMat"/>
+                                <body name="WAM_Link_7" pos="0 0 0.3" quat="0.707107 -0.707107 0 0">
+                                    <!-- ### Inertial Ref: (*1, pg.26) unit: [m, kg, kg * m^2] -->
+                                    <inertial pos="-0.00012262 -0.02468336 -0.00703194" mass="0.41797364" diaginertia="0.00055516 0.00045358 0.00024367" />
+                                    <site name="wam/mass_sites/wrist_pitch" pos="-0.00012262 -0.02468336 -0.01703194"/>
+                                    <joint name="wam/joints/wrist_pitch" range="-1.6 1.6" armature="1.2"/>
+                                    <geom class="viz" mesh="wrist_pitch_link_fine" pos="0 0 0" material="RobMat"/>
+                                    <geom class="col" mesh="wrist_pitch_link_convex_decomposition_p1" material="RobMat"/>
+                                    <geom class="col" mesh="wrist_pitch_link_convex_decomposition_p2" material="RobMat"/>
+                                    <geom class="col" mesh="wrist_pitch_link_convex_decomposition_p3" material="RobMat"/>
+                                    <body name="WAM_Link_8" pos="0 -0.06 0" quat="0.707107 0.707107 0 0">
+                                        <!-- ### Inertial Ref: (*1, pg.14) unit: [m, kg, kg * m^2] 
+                                        Note:
+                                            - frame correction to the stl: <x, y, z + 0.055>
+                                            - [Optional] We could neglect x,y components as if it is a disc
+                                        -->
+                                        <inertial pos="-0.00007974 -0.00323552 -0.00016313" mass="0.06864753" diaginertia="0.00003773 0.00003806 0.00007408" />
+                                        <site name="wam/mass_sites/wrist_palm" pos="-0.00007974 -0.00323552 -0.00016313"/>
+                                        <joint name="wam/joints/palm_yaw" range="-2.2 2.2" armature="1.2"/>
+                                        <geom class="viz" mesh="wrist_palm_link_fine" pos="0 0 -0.06" material="RobMat"/>
+                                        <geom class="col" mesh="wrist_palm_link_fine" pos="0 0 -0.06" material="RobMat"/>
+                                    </body>
+                                </body>
+                            </body>
+                        </body>
+                    </body>
+                </body>
+            </body>
+        </body>
+    </body>
+</mujoco>

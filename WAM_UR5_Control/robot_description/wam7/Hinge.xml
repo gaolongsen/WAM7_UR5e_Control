@@ -1,0 +1,361 @@
+<!-- ======================================================
+	The Barrett WAM 7 DoF setup as in the IAS Lab @ TU Darmstadt
+
+	Last edits 	: 18Dec'19
+====================================================== -->
+
+<mujoco model="Hinge">
+    <option integrator="Euler" solver="Newton" timestep="0.002" gravity="0 0 0"/>
+    <compiler coordinate="local" angle="radian" meshdir="meshes/" texturedir="textures/" inertiafromgeom="true"/>
+    <default>
+        <joint type="hinge" limited="true" pos="0 0 0" axis="0 0 1" frictionloss=".1"/>
+        <default class="viz">
+            <geom type="mesh" contype="0" conaffinity="0" group="2" rgba="0.7 0.7 0.7 1" density="0"/>
+        </default>
+        <default class="col">
+            <geom type="mesh" contype="0" conaffinity="1" group="3" rgba="0.5 0.6 0.7 1" density="0"/>
+        </default>
+         <default class="x_axis">
+            <geom contype="0" conaffinity="0" group="1" rgba="1 0 0 1"
+                  type="cylinder" size=".01 0.15" pos="0.15 0 0" euler="0 1.570796327 0"/>
+        </default>
+        <default class="y_axis">
+            <geom contype="0" conaffinity="0" group="1" rgba="0 1 0 1"
+                  type="cylinder" size=".01 0.15" pos="0 0.15 0" euler="1.570796327 0 0"/>
+        </default>
+        <default class="z_axis">
+            <geom contype="0" conaffinity="0" group="1" rgba="0 0 1 1"
+                  type="cylinder" size=".01 0.15" pos="0 0 0.15" euler="0 0 0"/>
+        </default>
+
+        <default class="sx_axis">
+            <geom contype="0" conaffinity="0" group="1" rgba="1 0 0 1"
+                  type="cylinder" size=".001 0.015" pos="0.015 0 0" euler="0 1.570796327 0"/>
+        </default>
+        <default class="sy_axis">
+            <geom contype="0" conaffinity="0" group="1" rgba="0 1 0 1"
+                  type="cylinder" size=".001 0.015" pos="0 0.015 0" euler="1.570796327 0 0"/>
+        </default>
+        <default class="sz_axis">
+            <geom contype="0" conaffinity="0" group="1" rgba="0 0 1 1"
+                  type="cylinder" size=".001 0.015" pos="0 0 0.015" euler="0 0 0"/>
+        </default>
+        <!--New Content Added-->
+        <default class="wam/bhand">
+            <joint type="hinge" limited="true" pos="0 0 0" axis="0 0 1"  frictionloss=".001"/>
+        </default>
+        <default class="wam/bhand/col">
+            <geom type="mesh" contype="1" conaffinity="1" group="0" rgba="0.5 0.6 0.7 0.7"/>          
+        </default>
+        <default class="wam/bhand/viz">
+            <geom type="mesh" contype="1" conaffinity="0" group="1" rgba="0.7 0.8 0.8 1"/>
+        </default>
+
+        <muscle ctrllimited="true" ctrlrange="0 1"/>
+        <camera fovy="60" />
+        <motor gear="0.8"/>
+        <velocity kv="10"/>
+        <position kp="5"/>
+
+    </default>
+    <option solver="CG" tolerance="1e-6"/>
+     <size nconmax="500" njmax="5000" nstack="5000000"/>
+    <visual>
+        <rgba haze="0.15 0.25 0.35 1"/>
+        <quality shadowsize="2048"/>
+        <map stiffness="700" shadowscale="0.5" fogstart="10" fogend="15" zfar="40" haze="0.3" />
+    </visual>
+
+    <asset>
+ 
+        <!--BHand Part-->
+        <mesh file="bhand_palm_fine.stl"/>
+		<mesh file="bhand_palm_link_convex_decomposition_p1.stl"/>
+		<mesh file="bhand_palm_link_convex_decomposition_p2.stl"/>
+		<mesh file="bhand_palm_link_convex_decomposition_p3.stl"/>
+		<mesh file="bhand_palm_link_convex_decomposition_p4.stl"/>
+		<mesh file="bhand_finger_prox_link_fine.stl"/>
+		<mesh file="bhand_finger_prox_link_convex_decomposition_p1.stl"/>
+		<mesh file="bhand_finger_prox_link_convex_decomposition_p2.stl"/>
+		<mesh file="bhand_finger_prox_link_convex_decomposition_p3.stl"/>
+		<mesh file="bhand_finger_med_link_fine.stl"/>
+        <mesh file="bhand_finger_med_link_convex.stl"/>
+		<mesh file="bhand_finger_dist_link_fine.stl"/>
+		<mesh file="bhand_finger_dist_link_convex.stl"/>
+
+        <mesh file="zed.stl"/>
+        <mesh file="zed_collision_mesh.stl"/>
+        <mesh file="ZED_Base.stl"/>
+        <mesh file="can.stl" name="can_mesh" scale="2.0 2.0 2.0" />
+        <!-- [OBJ] Hinge system -->
+        <mesh file="base_link.STL" />
+        <mesh file="hinge_link.STL" />
+        <mesh file="stick_Link.STL" />
+
+        <texture file="wood.png" name="hinge-wood"/>
+        <material name="wood" reflectance="0.7" texrepeat="5 5" texture="hinge-wood" texuniform="true"/>
+
+        <!-- Wall Paper-->
+        <texture file="lobo.png" name="wall-tex"/>
+        <material name="wall" reflectance="0.7" texrepeat="5 5" texture="wall-tex" texuniform="true"/>
+
+
+        <texture name="texplane" type="2d" builtin="checker" rgb1=".2 .3 .4" rgb2=".1 0.15 0.2" width="512"
+                 height="512" mark="cross" markrgb=".8 .8 .8"/>
+        <material name="matplane" reflectance="0.3" texture="texplane" texrepeat="1 1" texuniform="true"/>
+        <!-- [OBJ] Coke Can -->
+        <texture file="Fanta.png" name="tex-can"/>
+        <material name="coke" reflectance="0.7" texrepeat="5 5" texture="tex-can" texuniform="true"/>
+        <material name="table_mat" specular="0" shininess="0.5" reflectance="0" rgba="0.93 0.93 0.93 1"/>
+        
+        <!--  [Track & Table] Skin and Materials   -->
+        <texture name="texsponge" type="2d" file="sponge.png"/>
+        <texture name="texmarble" type="cube" file="marble.png"/>
+        <material name="matmarble" texture="texmarble" rgba=".7 .7 .7 1"/>
+        <material name="matsponge" texture="texsponge" specular="0.3"/>
+
+        <material name="RobMat" specular="0.9" shininess="0.5" reflectance="0" rgba="0.7 0.7 0.7 1" emission="0.1" />
+        <material name="GriMat" specular="0.9" shininess="0.5" reflectance="0" rgba="0.1 0.1 0.1 1" emission="0.1" />
+        <material name="BasketMat" specular="0" shininess="0" reflectance="0" rgba="0.26 0.16 0.16796875 1" emission="0" />
+        <material name="Light" specular="0" shininess="0.6" reflectance="0.9" rgba="0.5 0.5 1 1" emission="0.7" />
+    </asset>
+
+<worldbody>
+        <light directional="false" diffuse=".2 .2 .2" specular="0 0 0" pos="0 0 5" dir="0 0 -1" castshadow="false"/>
+        <light mode="targetbodycom" target="hinge_link" directional="false" diffuse="2 2 2" specular="0.3 0.3 0.3" pos="0 0 7.0" dir="0 0 -1"/>
+        <geom name="floor" pos="0 0 0.6" size="5 2 .25" type="plane" material="matplane" condim="3" solref="-16000 -200"/>
+
+        <!-- Table 2 -->
+        <geom name="workbench_down2" pos="0.4 0.7 0.8" size="0.07 0.07 0.7" type="box" rgba="1 1 1 1" material="wood" condim="4"/>
+       
+        <!--Two Walls-->
+        <!-- wall_1 pos = "y x z"   wall_2 pos = "x y z"-->
+        <geom name="wall_1" pos="0 -2.0 1.5" size="5 2.5 1" type="plane" quat="0.707107 -0.707107 0 0" rgba="0.95 0.95 0.95 1"  />
+
+
+        <!-- Hinge system -->
+        <body pos="0.4 0.7 1.525" name="Hinge">
+            <geom type="mesh" rgba="0.3451 0.4431 0.9922 1" mesh="base_link" mass="2" conaffinity="0"/>  
+            <geom class="x_axis"/>
+            <geom class="y_axis"/>
+            <geom class="z_axis"/>                                                                                                
+        </body>
+        <body name="hinge_link" pos="0.434528 0.6972219 1.5017" >
+            
+            <inertial pos="0.0379919 -0.0392063 0.0355313" quat="0.646183 0.664468 0.269129 0.261724" mass="0.455183" diaginertia="0.00434781 0.00419969 0.000192311" />
+            <joint name="hinge_joint" pos="0 0 0" axis="0 0 1" range="-1.39 0.4" />
+            <geom pos="0.028636 -0.029552 0.029845" quat="0.509775 0.707102 0.00284346 0.490029" type="mesh" rgba="0.8235 1 0.12 1" mesh="stick_Link" conaffinity="1"/>
+            <geom name="stick_bar" pos="0.0 0 0" quat="1 0 0 0" type="mesh" contype="0" rgba="0.8235 1 0.12 1" mesh="hinge_link" conaffinity="0"/>
+            <body name="cube1" pos="0.165472 -0.1972219 0.0333">
+                    <geom name="payload" type="box" size=".001 .001 .001" rgba="0.8 .1 0 0" condim="1" friction="0 0 0" priority="1"/>
+                    <body name="rb1" pos="0.05 0 0">
+                        <geom name="box1" type="box" quat="0.924 0 0 -0.383" size=".01 .01 .01" rgba="1 0 0 0.6" condim="1" friction="0 0 0"/>
+                        <geom class="sx_axis"/>
+                        <geom class="sy_axis"/>
+                        <geom class="sz_axis"/>  
+                    </body>
+
+                <body name="rb2" pos="0 -0.002 0">
+                    
+                    <geom name="box2" type="box" quat="0.924 0 0 -0.383" size=".01 .01 .01" rgba="0 1 0 0.6" condim="1" friction="0 0 0"/>
+                    <geom class="sx_axis"/>
+                    <geom class="sy_axis"/>
+                    <geom class="sz_axis"/>  
+                </body>
+
+                <body name="rb3" pos="0.01 0.043 0">
+                    <geom name="box3" type="box" quat="0.924 0 0 -0.383" size=".01 .01 .01" rgba="0 0 1 0.6" condim="1" friction="0 0 0"/>
+                    <geom class="sx_axis"/>
+                    <geom class="sy_axis"/>
+                    <geom class="sz_axis"/>  
+                </body>
+            </body>
+        </body>
+    <!--    
+    <body name="cube1" pos="0.6 0.5 1.535">
+        <geom name="payload" type="box" size=".001 .001 .001" rgba="0.8 .1 0 0" condim="1" friction="0 0 0" priority="1"/>
+        <freejoint/>
+        <body name="rb1" pos="-0.1 0.1 0">
+          <geom name="box1" type="box" quat="0.924 0 0 -0.383" size=".01 .01 .01" rgba="1 0 0 0.6" condim="1" friction="0 0 0"/>
+            <geom class="sx_axis"/>
+            <geom class="sy_axis"/>
+            <geom class="sz_axis"/>  
+        </body>
+
+            <body name="rb2" pos="0 0 0">
+                
+                <geom name="box2" type="box" quat="0.924 0 0 -0.383" size=".01 .01 .01" rgba="0 1 0 0.6" condim="1" friction="0 0 0"/>
+                <geom class="sx_axis"/>
+                <geom class="sy_axis"/>
+                <geom class="sz_axis"/>  
+            </body>
+
+        <body name="rb3" pos="0 0.05 0">
+          <geom name="box3" type="box" quat="0.924 0 0 -0.383" size=".01 .01 .01" rgba="0 0 1 0.6" condim="1" friction="0 0 0"/>
+            <geom class="sx_axis"/>
+            <geom class="sy_axis"/>
+            <geom class="sz_axis"/>  
+        </body>
+    </body>
+    -->
+        <body mocap="true" name="mocap" pos="0.6 0.5 1.535">
+        </body>
+        <!--<body mocap="true" name="mocap2" pos="0.6 0.5 1.535">
+        </body>-->
+    <body name="Handd" pos="0.6 0.5 1.68">
+        <geom name="h_center" type="box" size=".001 .001 .001" rgba="0.8 .1 0 0" condim="1" friction="0 0 0" priority="1"/>
+        <freejoint/>
+        <body name="wam/bhand/bhand_palm_link" childclass="wam/bhand" pos="0 0 0" quat="0 -0.924 0.383 0">
+            <inertial pos="5.0019e-005  0.0044561 0.037268" mass="0.60858" fullinertia="0.0006986 0.00050354 0.00062253 2.7577e-007 -7.8138e-007 -6.44e-005" />
+            <geom class="wam/bhand/viz" mesh="bhand_palm_fine"/>
+            <geom class="wam/bhand/col" mesh="bhand_palm_link_convex_decomposition_p1"/>
+            <geom class="wam/bhand/col" mesh="bhand_palm_link_convex_decomposition_p2"/>
+            <geom class="wam/bhand/col" mesh="bhand_palm_link_convex_decomposition_p3"/>
+            <geom class="wam/bhand/col" mesh="bhand_palm_link_convex_decomposition_p4"/>
+
+
+            <body name="wam/bhand/finger_1/prox_link" pos="-0.025 0 0.0415" quat="0.707107 0 0 -0.707107">
+                <inertial pos="0.030616 7.3219e-005 0.011201" mass="0.14109" fullinertia="2.0672e-005 7.4105e-005 6.8207e-005 2.6024e-007 6.3481e-006 1.7118e-008" />
+                <joint name="bhand/f1/prox" axis="0 0 -1" range="0 3.1415926536" damping="0.11"/>
+                <geom class="wam/bhand/viz" mesh="bhand_finger_prox_link_fine"/>
+                <geom class="wam/bhand/col" mesh="bhand_finger_prox_link_convex_decomposition_p1"/>
+                <geom class="wam/bhand/col" mesh="bhand_finger_prox_link_convex_decomposition_p2"/>
+                <geom class="wam/bhand/col" mesh="bhand_finger_prox_link_convex_decomposition_p3"/>
+                
+                <!-- IMPORTANT: with fingertip torque sensor -->
+                <body name="wam/bhand/finger_1/med_link" pos="0.05 0 0.0339" quat="0.707107 0.707107 0 0">
+                    <inertial pos="0.023133 0.00078642 0.00052792" mass="0.062139" fullinertia="4.8162e-006 4.3317e-005 4.4441e-005 5.7981e-007 -7.2483e-007 -2.6653e-009" />
+                    <joint name="bhand/f1/med" range="0 2.4434609528 rad" damping="0.11"/>
+                    <geom class="wam/bhand/viz" mesh="bhand_finger_med_link_fine"/>
+                    <geom class="wam/bhand/col" mesh="bhand_finger_med_link_convex"/>
+                    
+                    <!-- IMPORTANT: with fingertip pressure pad -->
+                    <body name="wam/bhand/finger_1/dist_link" pos="0.06994 0.003 0" quat="0.92388 0 0 0.382683">
+                        <inertial pos="0.02295 0.0010739 0.00041752" mass="0.04166" fullinertia="3.1199e-006 1.6948e-005 1.5809e-005 4.5115e-007 -2.9813e-007 -1.8635e-008" />
+                        <joint name="bhand/f1/dist" range="0 0.837758041" damping="0.11"/>
+                        <geom class="wam/bhand/viz" mesh="bhand_finger_dist_link_fine" euler="0 0 -.84"/>
+                        <geom class="wam/bhand/col" mesh="bhand_finger_dist_link_convex" euler="0 0 -.84"/> 
+                        <site name="sensorsurf1_0_1" pos="0.024 0.0060 0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.10"/>
+                        <site name="sensorsurf1_0_2" pos="0.024 0.0060 0.000" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.10"/>
+                        <site name="sensorsurf1_0_3" pos="0.024 0.0060 -0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.10"/>  
+                        <site name="sensorsurf1_1_1" pos="0.028 0.0053 0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.10"/>
+                        <site name="sensorsurf1_1_2" pos="0.028 0.0053 0.000" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.10"/>
+                        <site name="sensorsurf1_1_3" pos="0.028 0.0053 -0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.10"/>  
+                        <site name="sensorsurf1_2_1" pos="0.032 0.0047 0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.10"/>
+                        <site name="sensorsurf1_2_2" pos="0.032 0.0047 0.000" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.10"/>
+                        <site name="sensorsurf1_2_3" pos="0.032 0.0047 -0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.10"/>  
+                        <site name="sensorsurf1_3_1" pos="0.036 0.004 0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf1_3_2" pos="0.036 0.004 0.000" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf1_3_3" pos="0.036 0.004 -0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>                                                            
+                        <site name="sensorsurf1_4_1" pos="0.04 0.0035 0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf1_4_2" pos="0.04 0.0035 0.000" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf1_4_3" pos="0.04 0.0035 -0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf1_5_1" pos="0.044 0.0026 0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf1_5_2" pos="0.044 0.0026 0.000" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf1_5_3" pos="0.044 0.0026 -0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf1_6_1" pos="0.048 0.0018 0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf1_6_2" pos="0.048 0.0018 0.000" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf1_6_3" pos="0.048 0.0018 -0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf1_7_1" pos="0.052 0.0000 0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf1_7_2" pos="0.052 0.0000 0.000" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf1_7_3" pos="0.052 0.0000 -0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                    </body>
+                </body>
+            </body>
+            
+            <body name="wam/bhand/finger_2/prox_link" pos="0.025 0 0.0415" quat="0.707107 0 0 -0.707107">
+                <inertial pos="0.030616 7.3219e-005 0.011201" mass="0.14109" fullinertia="2.0672e-005 7.4105e-005 6.8207e-005 2.6024e-007 6.3481e-006 1.7118e-008" />
+                <joint name="bhand/f2/prox" range="0 3.1415926536" damping="0.11"/>
+                <geom class="wam/bhand/viz" mesh="bhand_finger_prox_link_fine"/>
+                <geom class="wam/bhand/col" mesh="bhand_finger_prox_link_convex_decomposition_p1"/>
+                <geom class="wam/bhand/col" mesh="bhand_finger_prox_link_convex_decomposition_p2"/>
+                <geom class="wam/bhand/col" mesh="bhand_finger_prox_link_convex_decomposition_p3"/>
+                
+                <!-- IMPORTANT: with fingertip torque sensor -->
+                <body name="wam/bhand/finger_2/med_link" pos="0.05 0 0.0339" quat="0.707107 0.707107 0 0">
+                    <inertial pos="0.023133 0.00078642 0.00052792" mass="0.062139" fullinertia="4.8162e-006 4.3317e-005 4.4441e-005 5.7981e-007 -7.2483e-007 -2.6653e-009" />
+                    <joint name="bhand/f2/med" range="0 2.4434609528 rad" damping="0.11"/>
+                    <geom class="wam/bhand/viz" mesh="bhand_finger_med_link_fine"/>
+                    <geom class="wam/bhand/col" mesh="bhand_finger_med_link_convex"/>
+                    
+                    <!-- IMPORTANT: with fingertip pressure pad -->
+                    <body name="wam/bhand/finger_2/dist_link" pos="0.06994 0.003 0" quat="0.92388 0 0 0.382683">
+                        <inertial pos="0.02295 0.0010739 0.00041752" mass="0.04166" fullinertia="3.1199e-006 1.6948e-005 1.5809e-005 4.5115e-007 -2.9813e-007 -1.8635e-008" />
+                        <joint name="bhand/f2/dist" range="0 0.837758041" damping="0.11"/>
+                        <geom class="wam/bhand/viz" mesh="bhand_finger_dist_link_fine" euler="0 0 -.84"/>
+                        <geom class="wam/bhand/col" mesh="bhand_finger_dist_link_convex" euler="0 0 -.84"/> 
+                        <site name="sensorsurf2_0_1" pos="0.024 0.0060 0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.10"/>
+                        <site name="sensorsurf2_0_2" pos="0.024 0.0060 0.000" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.10"/>
+                        <site name="sensorsurf2_0_3" pos="0.024 0.0060 -0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.10"/>  
+                        <site name="sensorsurf2_1_1" pos="0.028 0.0053 0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.10"/>
+                        <site name="sensorsurf2_1_2" pos="0.028 0.0053 0.000" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.10"/>
+                        <site name="sensorsurf2_1_3" pos="0.028 0.0053 -0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.10"/>  
+                        <site name="sensorsurf2_2_1" pos="0.032 0.0047 0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.10"/>
+                        <site name="sensorsurf2_2_2" pos="0.032 0.0047 0.000" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.10"/>
+                        <site name="sensorsurf2_2_3" pos="0.032 0.0047 -0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.10"/>  
+                        <site name="sensorsurf2_3_1" pos="0.036 0.004 0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf2_3_2" pos="0.036 0.004 0.000" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf2_3_3" pos="0.036 0.004 -0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>                                                            
+                        <site name="sensorsurf2_4_1" pos="0.04 0.0035 0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf2_4_2" pos="0.04 0.0035 0.000" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf2_4_3" pos="0.04 0.0035 -0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf2_5_1" pos="0.044 0.0026 0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf2_5_2" pos="0.044 0.0026 0.000" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf2_5_3" pos="0.044 0.0026 -0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf2_6_1" pos="0.048 0.0018 0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf2_6_2" pos="0.048 0.0018 0.000" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf2_6_3" pos="0.048 0.0018 -0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf2_7_1" pos="0.052 0.0000 0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf2_7_2" pos="0.052 0.0000 0.000" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf2_7_3" pos="0.052 0.0000 -0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                    </body>
+                </body>
+            </body>
+            
+            <!-- IMPORTANT: with fingertip torque sensor -->
+            <body name="wam/bhand/finger_3/med_link" pos="0 0.05 0.0754" quat="0.5 0.5 0.5 0.5">
+                <inertial  pos="0.023133 0.00078642 0.00052792" mass="0.062139" fullinertia="4.8162e-006 4.3317e-005 4.4441e-005 5.7981e-007 -7.2483e-007 -2.6653e-009" />
+                <joint name="bhand/f3/med" range="0 2.4434609528 rad" damping="0.11"/>
+                <geom class="wam/bhand/viz" mesh="bhand_finger_med_link_fine"/>
+                <geom class="wam/bhand/col" mesh="bhand_finger_med_link_convex"/>
+                
+                <!-- IMPORTANT: with fingertip pressure pad -->
+                <body name="wam/bhand/finger_3/dist_link" pos="0.06994 0.003 0" quat="0.92388 0 0 0.382683">
+                    <inertial pos="0.02295 0.0010739 0.00041752" mass="0.04166" fullinertia="3.1199e-006 1.6948e-005 1.5809e-005 4.5115e-007 -2.9813e-007 -1.8635e-008" />
+                    <joint name="bhand/f3/dist" range="0 0.837758041" damping="0.11"/>
+                    <geom class="wam/bhand/viz" mesh="bhand_finger_dist_link_fine" euler="0 0 -.84"/>
+                    <geom class="wam/bhand/col" mesh="bhand_finger_dist_link_convex" euler="0 0 -.84"/> 
+                        <site name="sensorsurf3_0_1" pos="0.024 0.0060 0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.10"/>
+                        <site name="sensorsurf3_0_2" pos="0.024 0.0060 0.000" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.10"/>
+                        <site name="sensorsurf3_0_3" pos="0.024 0.0060 -0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.10"/>  
+                        <site name="sensorsurf3_1_1" pos="0.028 0.0053 0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.10"/>
+                        <site name="sensorsurf3_1_2" pos="0.028 0.0053 0.000" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.10"/>
+                        <site name="sensorsurf3_1_3" pos="0.028 0.0053 -0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.10"/>  
+                        <site name="sensorsurf3_2_1" pos="0.032 0.0047 0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.10"/>
+                        <site name="sensorsurf3_2_2" pos="0.032 0.0047 0.000" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.10"/>
+                        <site name="sensorsurf3_2_3" pos="0.032 0.0047 -0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.10"/>  
+                        <site name="sensorsurf3_3_1" pos="0.036 0.004 0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf3_3_2" pos="0.036 0.004 0.000" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf3_3_3" pos="0.036 0.004 -0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>                                                            
+                        <site name="sensorsurf3_4_1" pos="0.04 0.0035 0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf3_4_2" pos="0.04 0.0035 0.000" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf3_4_3" pos="0.04 0.0035 -0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf3_5_1" pos="0.044 0.0026 0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf3_5_2" pos="0.044 0.0026 0.000" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf3_5_3" pos="0.044 0.0026 -0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf3_6_1" pos="0.048 0.0018 0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf3_6_2" pos="0.048 0.0018 0.000" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf3_6_3" pos="0.048 0.0018 -0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf3_7_1" pos="0.052 0.0000 0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf3_7_2" pos="0.052 0.0000 0.000" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                        <site name="sensorsurf3_7_3" pos="0.052 0.0000 -0.006" size=".002 .002 .003" type="box" rgba="0.3 0.2 0.1 0.3" euler="0 0 -0.20"/>
+                </body>
+            </body>
+        </body>
+    </body>
+</worldbody>
+  <equality>
+    <weld body1="mocap" body2="Handd" solimp="0 0 0" solref="0.02 1"></weld>
+    <!--<weld body1="mocap2" body2="Hand" solimp="0.9 0.95 0.001" solref="0.02 1"></weld>-->
+  </equality>
+</mujoco>

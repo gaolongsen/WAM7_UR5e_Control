@@ -1,0 +1,209 @@
+<!-- ======================================================
+	The Barrett WAM 7 DoF setup as in the IAS Lab @ TU Darmstadt
+
+	Last edits 	: 18Dec'19
+====================================================== -->
+
+<mujoco model="wam_7dof">
+    <option integrator="Euler" solver="Newton" timestep="0.002" gravity="0 0 0"/>
+    <compiler coordinate="local" angle="radian" meshdir="meshes/" texturedir="textures/"/>
+    <default>
+        <joint type="hinge" limited="true" pos="0 0 0" axis="0 0 1" frictionloss=".1"/>
+        <default class="viz">
+            <geom type="mesh" contype="0" conaffinity="0" group="2" rgba="0.7 0.7 0.7 1" density="0"/>
+        </default>
+        <default class="col">
+            <geom type="mesh" contype="0" conaffinity="1" group="3" rgba="0.5 0.6 0.7 1" density="0"/>
+        </default>
+         <default class="x_axis">
+            <geom contype="0" conaffinity="0" group="1" rgba="1 0 0 1"
+                  type="cylinder" size=".01 0.15" pos="0.15 0 0" euler="0 1.570796327 0"/>
+        </default>
+        <default class="y_axis">
+            <geom contype="0" conaffinity="0" group="1" rgba="0 1 0 1"
+                  type="cylinder" size=".01 0.15" pos="0 0.15 0" euler="1.570796327 0 0"/>
+        </default>
+        <default class="z_axis">
+            <geom contype="0" conaffinity="0" group="1" rgba="0 0 1 1"
+                  type="cylinder" size=".01 0.15" pos="0 0 0.15" euler="0 0 0"/>
+        </default>
+        <!--New Content Added-->
+        <default class="wam/bhand">
+			<geom type="mesh" contype="0" conaffinity="1" group="2" rgba="0.5 0.6 0.7 1"/>			
+            <joint type="hinge" limited="true" pos="0 0 0" axis="0 0 1"  frictionloss=".001"/>
+        </default>
+		<default class="wam/bhandViz">
+			<geom type="mesh" contype="0" conaffinity="0" group="2" rgba="0.7 0.8 0.8 1"/>
+		</default>
+        <default class="wam/bhand/col">
+            <geom type="mesh" contype="1" conaffinity="1" group="0" rgba="0.5 0.6 0.7 0.7"/>          
+        </default>
+        <default class="wam/bhand/viz">
+            <geom type="mesh" contype="1" conaffinity="0" group="1" rgba="0.7 0.8 0.8 1"/>
+        </default>
+        <default class="joint_y">
+            <joint pos="-0.00535 0 0" axis="0 1 0" group="3" limited="false" damping="0.0001" frictionloss="0"/>
+        </default>
+
+        <default class="joint_z">
+            <joint pos="-0.00535 0 0" axis="0 0 1" group="3" limited="false" damping="0.0001" frictionloss="0"/>
+        </default>
+        
+        <default class="chain_piece">         
+            <geom size="0.001 0.00427" quat="0.707107 0 0.707107 0" type="capsule" contype="0" conaffinity="1" 
+                group="3" rgba="0.5 0.6 0.7 1" density="0"/>
+        </default>
+        
+        <default class="ball">
+            <geom type="sphere" size="0.02" mass="0.021" contype="0" conaffinity="1" group="3" rgba="1.0 0.0 0.0 1"/>
+        </default>
+
+        <default class="chain_piece_visual">
+            <geom size="0.001 0.00535" quat="0.707107 0 0.707107 0" type="capsule" contype="0" conaffinity="0" 
+                group="2" rgba="0.7 0.7 0.7 1" density="0"/>
+        </default>
+
+        <default class="ball_visual">
+            <geom type="sphere" size="0.02" contype="0" conaffinity="0" group="2" rgba="1.0 0.0 0.0 1" density="0"/>
+        </default>
+
+        <default class="Track_visual">
+            <geom type="mesh" contype="0" conaffinity="1" group="2" rgba="0.5 0.6 0.7 1"/>
+        </default>
+        <muscle ctrllimited="true" ctrlrange="0 1"/>
+        <camera fovy="60" />
+        <motor gear="0.8"/>
+        <velocity kv="10"/>
+        <position kp="5"/>
+
+    </default>
+
+    <visual>
+        <rgba haze="0.15 0.25 0.35 1"/>
+        <quality shadowsize="2048"/>
+        <map stiffness="700" shadowscale="0.5" fogstart="10" fogend="15" zfar="40" haze="0.3" />
+    </visual>
+
+    <asset>
+        <mesh file="Track_D.stl"/>
+        <mesh file="base_link_fine.stl"/>
+        <mesh file="base_link_convex.stl"/>
+        <mesh file="shoulder_link_fine.stl"/>
+        <mesh file="shoulder_link_convex_decomposition_p1.stl"/>
+        <mesh file="shoulder_link_convex_decomposition_p2.stl"/>
+        <mesh file="shoulder_link_convex_decomposition_p3.stl"/>
+        <mesh file="shoulder_pitch_link_fine.stl"/>
+        <mesh file="shoulder_pitch_link_convex.stl"/>
+        <mesh file="upper_arm_link_fine.stl"/>
+        <mesh file="upper_arm_link_convex_decomposition_p1.stl"/>
+        <mesh file="upper_arm_link_convex_decomposition_p2.stl"/>
+        <mesh file="elbow_link_fine.stl"/>
+        <mesh file="elbow_link_convex.stl"/>
+        <mesh file="forearm_link_fine.stl"/>
+        <mesh file="forearm_link_convex_decomposition_p1.stl"/>
+        <mesh file="forearm_link_convex_decomposition_p2.stl"/>
+        <mesh file="wrist_yaw_link_fine.stl"/>
+        <mesh file="wrist_yaw_link_convex_decomposition_p1.stl"/>
+        <mesh file="wrist_yaw_link_convex_decomposition_p2.stl"/>
+        <mesh file="wrist_pitch_link_fine.stl"/>
+        <mesh file="wrist_pitch_link_convex_decomposition_p1.stl"/>
+        <mesh file="wrist_pitch_link_convex_decomposition_p2.stl"/>
+        <mesh file="wrist_pitch_link_convex_decomposition_p3.stl"/>
+        <mesh file="wrist_palm_link_fine.stl"/>
+        <mesh file="wrist_palm_link_convex.stl"/>
+        <!--BHand Part-->
+        <mesh file="bhand_palm_fine.stl"/>
+		<mesh file="bhand_palm_link_convex_decomposition_p1.stl"/>
+		<mesh file="bhand_palm_link_convex_decomposition_p2.stl"/>
+		<mesh file="bhand_palm_link_convex_decomposition_p3.stl"/>
+		<mesh file="bhand_palm_link_convex_decomposition_p4.stl"/>
+		<mesh file="bhand_finger_prox_link_fine.stl"/>
+		<mesh file="bhand_finger_prox_link_convex_decomposition_p1.stl"/>
+		<mesh file="bhand_finger_prox_link_convex_decomposition_p2.stl"/>
+		<mesh file="bhand_finger_prox_link_convex_decomposition_p3.stl"/>
+		<mesh file="bhand_finger_med_link_fine.stl"/>
+		<mesh file="bhand_finger_dist_link_fine.stl"/>
+		<mesh file="bhand_finger_dist_link_convex.stl"/>
+        <mesh file="zed.stl"/>
+        <mesh file="zed_collision_mesh.stl"/>
+        <mesh file="ZED_Base.stl"/>
+        <mesh file="can.stl" name="can_mesh" scale="2.0 2.0 2.0" />
+        <!-- [OBJ] Hinge system -->
+        <mesh file="base_link.STL" />
+        <mesh file="hinge_link.STL" />
+        <mesh file="stick_Link.STL" />
+
+        <texture file="wood.png" name="hinge-wood"/>
+        <material name="wood" reflectance="0.7" texrepeat="5 5" texture="hinge-wood" texuniform="true"/>
+
+        <!-- Wall Paper-->
+        <texture file="lobo.png" name="wall-tex"/>
+        <material name="wall" reflectance="0.7" texrepeat="5 5" texture="wall-tex" texuniform="true"/>
+
+
+        <texture name="texplane" type="2d" builtin="checker" rgb1=".2 .3 .4" rgb2=".1 0.15 0.2" width="512"
+                 height="512" mark="cross" markrgb=".8 .8 .8"/>
+        <material name="matplane" reflectance="0.3" texture="texplane" texrepeat="1 1" texuniform="true"/>
+        <!-- [OBJ] Coke Can -->
+        <texture file="Fanta.png" name="tex-can"/>
+        <material name="coke" reflectance="0.7" texrepeat="5 5" texture="tex-can" texuniform="true"/>
+        <material name="table_mat" specular="0" shininess="0.5" reflectance="0" rgba="0.93 0.93 0.93 1"/>
+        
+        <!--  [Track & Table] Skin and Materials   -->
+        <texture name="texsponge" type="2d" file="sponge.png"/>
+        <texture name="texmarble" type="cube" file="marble.png"/>
+        <material name="matmarble" texture="texmarble" rgba=".7 .7 .7 1"/>
+        <material name="matsponge" texture="texsponge" specular="0.3"/>
+
+        <material name="RobMat" specular="0.9" shininess="0.5" reflectance="0" rgba="0.7 0.7 0.7 1" emission="0.1" />
+        <material name="GriMat" specular="0.9" shininess="0.5" reflectance="0" rgba="0.1 0.1 0.1 1" emission="0.1" />
+        <material name="BasketMat" specular="0" shininess="0" reflectance="0" rgba="0.26 0.16 0.16796875 1" emission="0" />
+        <material name="Light" specular="0" shininess="0.6" reflectance="0.9" rgba="0.5 0.5 1 1" emission="0.7" />
+    </asset>
+
+    <worldbody>
+        <light directional="false" diffuse=".2 .2 .2" specular="0 0 0" pos="0 0 5" dir="0 0 -1" castshadow="false"/>
+        <light mode="targetbodycom" target="wam/bhand/finger_1/prox_link" directional="false" diffuse="2 2 2" specular="0.3 0.3 0.3" pos="0 0 4.0" dir="0 0 -1"/>
+        <geom name="floor" pos="0 0 0.6" size="2 2 .25" type="plane" material="matplane" condim="3" solref="-16000 -200"/>
+
+
+
+                                                <body name="wam/bhand/finger_1/prox_link" pos="-0.025 0 0.0415" quat="0.707107 0 0 -0.707107">
+                                                    <inertial pos="0.023133 0.00078642 0.00052792" quat="0.0160796 0.707269 -0.000766008 0.706762" mass="0.14109" diaginertia="7.77335e-005 7.66282e-005 4.83122e-006" />
+                                                    <site name="wam/mass_sites/finger_1/prox_link" pos="-0.025 0 0.0415"/>
+                                                    <joint name="wam/bhand/finger_1/prox_joint" axis="0 0 -1" range="0 3.14159" damping="0.11"/>
+                                                    <geom class="wam/bhandViz" mesh="bhand_finger_prox_link_fine"/>
+                                                    <body name="wam/bhand/finger_1/med_link" pos="0.05 0 0.0339" quat="0.707107 0.707107 0 0">
+                                                        <inertial pos="0.023133 0.00078642 0.00052792" quat="0.0160796 0.707269 -0.000766008 0.706762" mass="0.062139" diaginertia="7.77335e-005 7.66282e-005 4.83122e-006" />
+                                                        <site name="wam/mass_sites/finger_1/med_link" pos="0.05 0 0.0339"/>
+                                                        <joint name="wam/bhand/finger_1/med_joint" range="0 2.44346" damping="0.11"/>
+                                                        <geom class="wam/bhandViz" mesh="bhand_finger_med_link_fine"/>
+                                                        <geom class="col" mesh="bhand_finger_prox_link_fine" material="RobMat"/>
+                                                        <body name="wam/bhand/finger_1/dist_link" pos="0.06994 0.003 0" quat="0.92388 0 0 0.382683">
+                                                            <inertial pos="0.022825 0.0010491 0.0004203" quat="0.508412 0.51165 0.489583 0.489939" mass="0.041377" diaginertia="3.8434e-005 3.72753e-005 3.09987e-006" />
+                                                            <joint name="wam/bhand/finger_1/dist_joint" range="0 0.837758" damping="0.11"/>
+                                                            <site name="wam/mass_sites/finger_1/dist_link" pos="0.06994 0.003 0"/>
+                                                            <geom class="wam/bhandViz" mesh="bhand_finger_dist_link_fine" euler="0 0 -.84"/>  
+                                                            <geom class="col" mesh="bhand_finger_dist_link_fine" euler="0 0 -.84" material="RobMat"/>
+                                                        </body>
+                                                      </body>
+                                                </body>
+
+    </worldbody>
+
+ <!--   <tendon>
+        <spatial name="RShoulder" width="0.001" rgba="0.2 0.9 0.2 1.">
+            <site site="s0"/>
+            
+            <site site="s1"/>
+        </spatial>
+        <spatial name="LShoulder" width="0.001" rgba="0.2 0.9 0.2 1.">
+            <site site="s2"/>
+            <geom geom="g1"/>
+            <site site="ss2"/>
+        </spatial>
+    </tendon>
+-->
+
+
+</mujoco>

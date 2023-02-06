@@ -1,0 +1,433 @@
+<!-- ======================================================
+
+    The Barrett WAM 4 DoF in 'ball in cup' setup as in the IAS Lab @ TU Darmstadt
+
+    === HOW TO USE ===
+    Drag and drop into MuJoCo, or use any MuJoCo API. In case your model gets unstable, 
+    try to lower your timestep.
+
+    === HOW TO MODIFY ===
+    Most properties can be changed in the 'default' section. It is not possible to create 
+    defaults for bodys and inertials, so you will have to search and replace for:
+        - link length: third value of pos in bodys
+        - link mass and inertia: all values of the inertials
+
+    Contact:    mail@kaiploeger.net
+	Last edit:  14 Apr 20
+
+====================================================== -->
+
+
+<mujoco model="wam_4dof_ball_in_cup">
+
+    <option integrator="Euler" timestep="0.0002" viscosity="0.005"/>
+    <compiler coordinate="local" angle="radian" meshdir="meshes/"/>
+    
+    
+    <default>
+        <joint type="hinge" limited="true" pos="0 0 0" axis="0 0 1" frictionloss="0.1"/>
+        <site size=".02" rgba="1 0 0 0"/>
+        <default class="viz">
+            <geom type="mesh" contype="0" conaffinity="0" group="2" rgba="0.7 0.7 0.7 1" density="0"/>
+        </default>
+        <default class="col">
+            <geom type="mesh" contype="0" conaffinity="1" group="3" rgba="0.5 0.6 0.7 1" density="0"/>
+        </default>
+        <default class="x_axis">
+            <geom contype="0" conaffinity="0" group="1" rgba="1 0 0 1"
+                  type="cylinder" size=".01 0.15" pos="0.15 0 0" euler="0 1.57 0"/>
+        </default>
+        <default class="y_axis">
+            <geom contype="0" conaffinity="0" group="1" rgba="0 1 0 1"
+                  type="cylinder" size=".01 0.15" pos="0 0.15 0" euler="1.57 0 0"/>
+        </default>
+        <default class="z_axis">
+            <geom contype="0" conaffinity="0" group="1" rgba="0 0 1 1"
+                  type="cylinder" size=".01 0.15" pos="0 0 0.15" euler="0 0 0"/>
+          </default>
+
+        <default class="joint_y">
+            <joint pos="-0.00535 0 0" axis="0 1 0" group="3" limited="false" damping="0.0001" frictionloss="0.1"/>
+        </default>
+
+        <default class="joint_z">
+            <joint pos="-0.00535 0 0" axis="0 0 1" group="3" limited="false" damping="0.0001" frictionloss="0.1"/>
+        </default>
+        
+        <default class="chain_piece">         
+            <geom size="0.001 0.00427" quat="0.707107 0 0.707107 0" type="capsule" contype="0" conaffinity="1" 
+                group="3" rgba="0.5 0.6 0.7 1" density="0"/>
+        </default>
+        
+        <default class="ball">
+            <geom type="sphere" size="0.02" mass="0.021" contype="0" conaffinity="1" group="3" rgba="0.5 0.6 0.7 1"/>
+        </default>
+
+        <default class="chain_piece_visual">
+            <geom size="0.001 0.00535" quat="0.707107 0 0.707107 0" type="capsule" contype="0" conaffinity="0" 
+                group="2" rgba="0.7 0.7 0.7 1" density="0"/>
+        </default>
+
+        <default class="ball_visual">
+            <geom type="sphere" size="0.02" contype="0" conaffinity="0" group="2" rgba="0.7 0.7 0.7 1" density="0"/>
+        </default>
+    </default>
+
+
+    <asset>
+        <mesh file="base_link_fine.stl"/>
+        <mesh file="base_link_convex.stl"/>
+        <mesh file="shoulder_link_fine.stl"/>
+        <mesh file="shoulder_link_convex_decomposition_p1.stl"/>
+        <mesh file="shoulder_link_convex_decomposition_p2.stl"/>
+        <mesh file="shoulder_link_convex_decomposition_p3.stl"/>
+        <mesh file="shoulder_pitch_link_fine.stl"/>
+        <mesh file="shoulder_pitch_link_convex.stl"/>
+        <mesh file="upper_arm_link_fine.stl"/>
+        <mesh file="upper_arm_link_convex_decomposition_p1.stl"/>
+        <mesh file="upper_arm_link_convex_decomposition_p2.stl"/>
+        <mesh file="elbow_link_fine.stl"/>
+        <mesh file="elbow_link_convex.stl"/>
+        <mesh file="wrist_palm_link_fine.stl"/>
+        <mesh file="ball_in_cup_ee.stl"/>
+
+        <texture name="groundplane" type="2d" builtin="checker" rgb1=".25 .26 .25"
+                 rgb2=".22 .22 .22" width="100" height="100" mark="edge" markrgb=".3 .3 .3"/>
+        <material name="MatGnd" texture="groundplane" texrepeat="5 5" specular="1" shininess=".3"
+                  reflectance="0.00001"/>
+        <texture name="texplane" type="2d" builtin="checker" rgb1=".2 .3 .4" rgb2=".1 0.15 0.2" width="512"
+                 height="512" mark="cross" markrgb=".8 .8 .8"/>
+        <material name="matplane" reflectance="0.3" texture="texplane" texrepeat="1 1" texuniform="true"/>
+    </asset>
+
+
+    <worldbody>
+        <light directional="false" diffuse=".2 .2 .2" specular="0 0 0" pos="0 0 5" dir="0 0 -1" castshadow="false"/>
+        <light mode="targetbodycom" target="wam4/base_link" directional="false" diffuse="2 2 2" specular="0.3 0.3 0.3" pos="0 0 4.0" dir="0 0 -1"/>
+        <geom name="floor" pos="0 0 0" size="2 2 .25" type="plane" material="matplane" condim="3" solref="-16000 -200"/>
+
+        <geom class="x_axis"/>
+        <geom class="y_axis"/>
+        <geom class="z_axis"/>
+
+        <body name="wam4/base_link" pos="0 0 0.84" euler="0 0 1.57">
+            <geom class="x_axis"/>
+            <geom class="y_axis"/>
+            <geom class="z_axis"/>
+            <geom class="viz" mesh="base_link_fine" rgba="0.78 0.75 0.7 1" euler="0 0 -1.57"/>
+            <geom class="col" mesh="base_link_convex" euler="0 0 -1.57"/>
+
+            <body name="links/shoulder_yaw" pos="0 0 0.160" euler="0 0 -1.57">
+<!--                <geom class="x_axis"/>-->
+<!--                <geom class="y_axis"/>-->
+<!--                <geom class="z_axis"/>-->
+                <inertial pos="-0.00443422 -0.00066489 0.03810961" mass="10.76768767" fullinertia="0.13488033 0.11328369 0.11328369 0.00012485 -0.00213041 0.00068555" />
+                <site name="sites/shoulder_yaw" pos="-0.00443422 -0.00066489 0.03810961"/>
+                <joint name="joints/shoulder_yaw" range="-2.6 2.6" />
+                <geom class="viz" mesh="shoulder_link_fine" pos="0 0 0.186" rgba="0.78 0.75 0.7 1"/>
+                <geom class="col" mesh="shoulder_link_convex_decomposition_p1" pos="0 0 0.186"/>
+                <geom class="col" mesh="shoulder_link_convex_decomposition_p2" pos="0 0 0.186"/>
+                <geom class="col" mesh="shoulder_link_convex_decomposition_p3" pos="0 0 0.186"/>
+
+                <body name="links/shoulder_pitch" pos="0 0 0.184" quat="0.707107 -0.707107 0 0">
+<!--                    <geom class="x_axis"/>-->
+<!--                    <geom class="y_axis"/>-->
+<!--                    <geom class="z_axis"/>-->
+                    <inertial pos="-0.00236983 -0.01542114 0.03105614" mass="3.87493756" fullinertia="0.02140958 0.01558906 0.01377875 0.00002461 -0.00027172 -0.00181920" />
+                    <site name="sites/shoulder_pitch" pos="-0.00236983 -0.01542114 0.03105614"/>
+                    <joint name="joints/shoulder_pitch" range="-1.985 1.985"/>
+                    <geom class="viz" mesh="shoulder_pitch_link_fine" rgba="0.6 0.6 0.6 1"/>
+                    <geom class="col" mesh="shoulder_pitch_link_convex"/>
+
+                    <body name="links/upper_arm" pos="0 -0.505 0" quat="0.707107 0.707107 0 0">
+<!--                        <geom class="x_axis"/>-->
+<!--                        <geom class="y_axis"/>-->
+<!--                        <geom class="z_axis"/>-->
+                        <inertial pos="0.03825858 0.00003309 -0.20750770" mass="1.80228141" fullinertia="0.06276039 0.06656967 0.00689512 -0.00000738 -0.00614574 -0.00001767" />
+                        <site name="sites/upper_arm" pos="0.03825858 0.00003309 -0.20750770"/>
+                        <joint name="joint/shoulder_roll" range="-2.8 2.8" />
+                        <geom class="viz" mesh="upper_arm_link_fine" pos="0 0 -0.505" rgba=".25 .25 .25 1"/>
+                        <geom class="col" mesh="upper_arm_link_convex_decomposition_p1" pos="0 0 -0.505"/>
+                        <geom class="col" mesh="upper_arm_link_convex_decomposition_p2" pos="0 0 -0.505"/>
+
+                        <body name="links/forearm" pos="0.045 0 0.045" quat="0.707107 -0.707107 0 0">
+<!--                            <geom class="x_axis"/>-->
+<!--                            <geom class="y_axis"/>-->
+<!--                            <geom class="z_axis"/>-->
+                            <inertial pos="-0.03404529 -0.14053900 -0.00022942" mass="1.06513649" fullinertia="0.01848577 0.0045 0.01968956 -0.00150604 -0.00001741 -0.00002109" />
+                            <site name="sites/forearm" pos="-0.03404529 -0.14053900 -0.00022942"/>
+                            <joint name="joint/elbow_pitch" range="-0.9 3.14159" />
+                            <geom class="viz" mesh="elbow_link_fine" rgba="0.85 0.85 0.85 1"/>
+                            <geom class="col" mesh="elbow_link_convex"/>
+                            <geom class="viz" type="cylinder" size=".0445 0.136" pos="-.045 -0.214 0" euler="1.57 0 0" rgba=".25 .25 .25 1"/>
+                            <geom class="col" type="cylinder" size=".0445 0.136" pos="-.045 -0.214 0" euler="1.57 0 0"/>
+
+                            <body name="links/tool_base_wo_plate" pos="-.045 -0.35 0" quat="0.707107 0.707107 0 0">
+                                <geom class="viz" mesh="wrist_palm_link_fine" pos="0 0 -0.06" rgba="0.85 0.85 0.85 1"/>
+<!--                                <geom class="x_axis"/>-->
+<!--                                <geom class="y_axis"/>-->
+<!--                                <geom class="z_axis"/>-->
+
+                                <body name="links/tool_base_w_plate" pos="0 0 0.008" euler="0 0 1.57">
+                                <!--<body name="links/tool_base_w_plate" pos="0 0 0.008" euler="0 0 0">-->
+                                    <geom class="x_axis"/>
+                                    <geom class="y_axis"/>
+                                    <geom class="z_axis"/>
+                                    <geom class="viz" mesh="ball_in_cup_ee" euler="1.57 3.14 0" rgba=".3 .3 .3 1"/>
+                                    
+                                    <body name="liks/bic_tool_cone_tip" pos="0 -0.04 0.05" euler="1.57 0 0">
+
+                                        <body name="B0" euler="0 -1.57 0">
+                                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="7.4927e-05" diaginertia="5.87e-10 5.87e-10 3.74635e-11"/>
+                                            <joint name="J0_0" class="joint_y"/> 
+                                            <joint name="J1_0" class="joint_z"/>
+                                            <geom name="G0" class="chain_piece"/>
+                                            <geom name="G0_vis" class="chain_piece_visual"/>
+                                           
+                                            <body name="B1" pos="0.0107 0 0">
+                                                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="7.4927e-05" diaginertia="5.87e-10 5.87e-10 3.74635e-11"/>
+                                                <joint name="J0_1" class="joint_y"/>
+                                                <joint name="J1_1" class="joint_z"/>
+                                                <geom name="G1" class="chain_piece"/>
+                                                <geom name="G1_vis" class="chain_piece_visual"/>
+                                            
+                                                <body name="B2" pos="0.0107 0 0">
+                                                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="7.4927e-05" diaginertia="5.87e-10 5.87e-10 3.74635e-11"/>
+                                                    <joint name="J0_2" class="joint_y"/>
+                                                    <joint name="J1_2" class="joint_z"/>
+                                                    <geom name="G2" class="chain_piece"/>
+                                                    <geom name="G2_vis" class="chain_piece_visual"/>
+                                                
+                                                    <body name="B3" pos="0.0107 0 0">
+                                                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="7.4927e-05" diaginertia="5.87e-10 5.87e-10 3.74635e-11"/>
+                                                        <joint name="J0_3" class="joint_y"/>
+                                                        <joint name="J1_3" class="joint_z"/>
+                                                        <geom name="G3" class="chain_piece"/>
+                                                        <geom name="G3_vis" class="chain_piece_visual"/>
+                                                    
+                                                        <body name="B4" pos="0.0107 0 0">
+                                                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="7.4927e-05" diaginertia="5.87e-10 5.87e-10 3.74635e-11"/>
+                                                            <joint name="J0_4" class="joint_y"/>
+                                                            <joint name="J1_4" class="joint_z"/>
+                                                            <geom name="G4" class="chain_piece"/>
+                                                            <geom name="G4_vis" class="chain_piece_visual"/>
+                                                        
+                                                            <body name="B5" pos="0.0107 0 0">
+                                                                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="7.4927e-05" diaginertia="5.87e-10 5.87e-10 3.74635e-11"/>
+                                                                <joint name="J0_5" class="joint_y"/>
+                                                                <joint name="J1_5" class="joint_z"/>
+                                                                <geom name="G5" class="chain_piece"/>
+                                                                <geom name="G5_vis" class="chain_piece_visual"/>
+                                                            
+                                                                <body name="B6" pos="0.0107 0 0">
+                                                                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="7.4927e-05" diaginertia="5.87e-10 5.87e-10 3.74635e-11"/>
+                                                                    <joint name="J0_6" class="joint_y"/>
+                                                                    <joint name="J1_6" class="joint_z"/>
+                                                                    <geom name="G6" class="chain_piece"/>
+                                                                    <geom name="G6_vis" class="chain_piece_visual"/>
+                                                                
+                                                                    <body name="B7" pos="0.0107 0 0">
+                                                                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="7.4927e-05" diaginertia="5.87e-10 5.87e-10 3.74635e-11"/>
+                                                                        <joint name="J0_7" class="joint_y"/>
+                                                                        <joint name="J1_7" class="joint_z"/>
+                                                                        <geom name="G7" class="chain_piece"/>
+                                                                        <geom name="G7_vis" class="chain_piece_visual"/>
+                                                                    
+                                                                        <body name="B8" pos="0.0107 0 0">
+                                                                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="7.4927e-05" diaginertia="5.87e-10 5.87e-10 3.74635e-11"/>
+                                                                            <joint name="J0_8" class="joint_y"/>
+                                                                            <joint name="J1_8" class="joint_z"/>
+                                                                            <geom name="G8" class="chain_piece"/>
+                                                                            <geom name="G8_vis" class="chain_piece_visual"/>
+                                                                        
+                                                                            <body name="B9" pos="0.0107 0 0">
+                                                                                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="7.4927e-05" diaginertia="5.87e-10 5.87e-10 3.74635e-11"/>
+                                                                                <joint name="J0_9" class="joint_y"/>
+                                                                                <joint name="J1_9" class="joint_z"/>
+                                                                                <geom name="G9" class="chain_piece"/>
+                                                                                <geom name="G9_vis" class="chain_piece_visual"/>
+                                                                            
+                                                                                <body name="B10" pos="0.0107 0 0">
+                                                                                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="7.4927e-05" diaginertia="5.87e-10 5.87e-10 3.74635e-11"/>
+                                                                                    <joint name="J0_10" class="joint_y"/>
+                                                                                    <joint name="J1_10" class="joint_z"/>
+                                                                                    <geom name="G10" class="chain_piece"/>
+                                                                                    <geom name="G10_vis" class="chain_piece_visual"/>
+                                                                                
+                                                                                    <body name="B11" pos="0.0107 0 0">
+                                                                                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="7.4927e-05" diaginertia="5.87e-10 5.87e-10 3.74635e-11"/>
+                                                                                        <joint name="J0_11" class="joint_y"/>
+                                                                                        <joint name="J1_11" class="joint_z"/>
+                                                                                        <geom name="G11" class="chain_piece"/>
+                                                                                        <geom name="G11_vis" class="chain_piece_visual"/>
+                                                                                    
+                                                                                        <body name="B12" pos="0.0107 0 0">
+                                                                                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="7.4927e-05" diaginertia="5.87e-10 5.87e-10 3.74635e-11"/>
+                                                                                            <joint name="J0_12" class="joint_y"/>
+                                                                                            <joint name="J1_12" class="joint_z"/>
+                                                                                            <geom name="G12" class="chain_piece"/>
+                                                                                            <geom name="G12_vis" class="chain_piece_visual"/>
+                                                                                        
+                                                                                            <body name="B13" pos="0.0107 0 0">
+                                                                                                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="7.4927e-05" diaginertia="5.87e-10 5.87e-10 3.74635e-11"/>
+                                                                                                <joint name="J0_13" class="joint_y"/>
+                                                                                                <joint name="J1_13" class="joint_z"/>
+                                                                                                <geom name="G13" class="chain_piece"/>
+                                                                                                <geom name="G13_vis" class="chain_piece_visual"/>
+                                                                                            
+                                                                                                <body name="B14" pos="0.0107 0 0">
+                                                                                                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="7.4927e-05" diaginertia="5.87e-10 5.87e-10 3.74635e-11"/>
+                                                                                                    <joint name="J0_14" class="joint_y"/>
+                                                                                                    <joint name="J1_14" class="joint_z"/>
+                                                                                                    <geom name="G14" class="chain_piece"/>
+                                                                                                    <geom name="G14_vis" class="chain_piece_visual"/>
+                                                                                                
+                                                                                                    <body name="B15" pos="0.0107 0 0">
+                                                                                                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="7.4927e-05" diaginertia="5.87e-10 5.87e-10 3.74635e-11"/>
+                                                                                                        <joint name="J0_15" class="joint_y"/>
+                                                                                                        <joint name="J1_15" class="joint_z"/>
+                                                                                                        <geom name="G15" class="chain_piece"/>
+                                                                                                        <geom name="G15_vis" class="chain_piece_visual"/>
+                                                                                                    
+                                                                                                        <body name="B16" pos="0.0107 0 0">
+                                                                                                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="7.4927e-05" diaginertia="5.87e-10 5.87e-10 3.74635e-11"/>
+                                                                                                            <joint name="J0_16" class="joint_y"/>
+                                                                                                            <joint name="J1_16" class="joint_z"/>
+                                                                                                            <geom name="G16" class="chain_piece"/>
+                                                                                                            <geom name="G16_vis" class="chain_piece_visual"/>
+                                                                                                        
+                                                                                                            <body name="B17" pos="0.0107 0 0">
+                                                                                                                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="7.4927e-05" diaginertia="5.87e-10 5.87e-10 3.74635e-11"/>
+                                                                                                                <joint name="J0_17" class="joint_y"/>
+                                                                                                                <joint name="J1_17" class="joint_z"/>
+                                                                                                                <geom name="G17" class="chain_piece"/>
+                                                                                                                <geom name="G17_vis" class="chain_piece_visual"/>
+                                                                                                            
+                                                                                                                <body name="B18" pos="0.0107 0 0">
+                                                                                                                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="7.4927e-05" diaginertia="5.87e-10 5.87e-10 3.74635e-11"/>
+                                                                                                                    <joint name="J0_18" class="joint_y"/>
+                                                                                                                    <joint name="J1_18" class="joint_z"/>
+                                                                                                                    <geom name="G18" class="chain_piece"/>
+                                                                                                                    <geom name="G18_vis" class="chain_piece_visual"/>
+                                                                                                                
+                                                                                                                    <body name="B19" pos="0.0107 0 0">
+                                                                                                                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="7.4927e-05" diaginertia="5.87e-10 5.87e-10 3.74635e-11"/>
+                                                                                                                        <joint name="J0_19" class="joint_y"/>
+                                                                                                                        <joint name="J1_19" class="joint_z"/>
+                                                                                                                        <geom name="G19" class="chain_piece"/>
+                                                                                                                        <geom name="G19_vis" class="chain_piece_visual"/>
+                                                                                                                    
+                                                                                                                        <body name="B20" pos="0.0107 0 0">
+                                                                                                                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="7.4927e-05" diaginertia="5.87e-10 5.87e-10 3.74635e-11"/>
+                                                                                                                            <joint name="J0_20" class="joint_y"/>
+                                                                                                                            <joint name="J1_20" class="joint_z"/>
+                                                                                                                            <geom name="G20" class="chain_piece"/>
+                                                                                                                            <geom name="G20_vis" class="chain_piece_visual"/>
+                                                                                                                        
+                                                                                                                            <body name="B21" pos="0.0107 0 0">
+                                                                                                                                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="7.4927e-05" diaginertia="5.87e-10 5.87e-10 3.74635e-11"/>
+                                                                                                                                <joint name="J0_21" class="joint_y"/>
+                                                                                                                                <joint name="J1_21" class="joint_z"/>
+                                                                                                                                <geom name="G21" class="chain_piece"/>
+                                                                                                                                <geom name="G21_vis" class="chain_piece_visual"/>
+                                                                                                                            
+                                                                                                                                <body name="B22" pos="0.0107 0 0">
+                                                                                                                                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="7.4927e-05" diaginertia="5.87e-10 5.87e-10 3.74635e-11"/>
+                                                                                                                                    <joint name="J0_22" class="joint_y"/>
+                                                                                                                                    <joint name="J1_22" class="joint_z"/>
+                                                                                                                                    <geom name="G22" class="chain_piece"/>
+                                                                                                                                    <geom name="G22_vis" class="chain_piece_visual"/>
+                                                                                                                                
+                                                                                                                                    <body name="B23" pos="0.0107 0 0">
+                                                                                                                                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="7.4927e-05" diaginertia="5.87e-10 5.87e-10 3.74635e-11"/>
+                                                                                                                                        <joint name="J0_23" class="joint_y"/>
+                                                                                                                                        <joint name="J1_23" class="joint_z"/>
+                                                                                                                                        <geom name="G23" class="chain_piece"/>
+                                                                                                                                        <geom name="G23_vis" class="chain_piece_visual"/>
+                                                                                                                                    
+                                                                                                                                        <body name="B24" pos="0.0107 0 0">
+                                                                                                                                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="7.4927e-05" diaginertia="5.87e-10 5.87e-10 3.74635e-11"/>
+                                                                                                                                            <joint name="J0_24" class="joint_y"/>
+                                                                                                                                            <joint name="J1_24" class="joint_z"/>
+                                                                                                                                            <geom name="G24" class="chain_piece"/>
+                                                                                                                                            <geom name="G24_vis" class="chain_piece_visual"/>
+                                                                                                                                        
+                                                                                                                                            <body name="B25" pos="0.0107 0 0">
+                                                                                                                                                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="7.4927e-05" diaginertia="5.87e-10 5.87e-10 3.74635e-11"/>
+                                                                                                                                                <joint name="J0_25" class="joint_y"/>
+                                                                                                                                                <joint name="J1_25" class="joint_z"/>
+                                                                                                                                                <geom name="G25" class="chain_piece"/>
+                                                                                                                                                <geom name="G25_vis" class="chain_piece_visual"/>
+                                                                                                                                            
+                                                                                                                                                <body name="B26" pos="0.0107 0 0">
+                                                                                                                                                    <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="7.4927e-05" diaginertia="5.87e-10 5.87e-10 3.74635e-11"/>
+                                                                                                                                                    <joint name="J0_26" class="joint_y"/> 
+                                                                                                                                                    <joint name="J1_26" class="joint_z"/>
+                                                                                                                                                    <geom name="G26" class="chain_piece"/>
+                                                                                                                                                    <geom name="G26_vis" class="chain_piece_visual"/>
+                                                                                                                                                
+                                                                                                                                                    <body name="B27" pos="0.0107 0 0">
+                                                                                                                                                        <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="7.4927e-05" diaginertia="5.87e-10 5.87e-10 3.74635e-11"/>
+                                                                                                                                                        <joint name="J0_27" class="joint_y"/>
+                                                                                                                                                        <joint name="J1_27" class="joint_z"/>
+                                                                                                                                                        <geom name="G27" class="chain_piece"/>
+                                                                                                                                                        <geom name="G27_vis" class="chain_piece_visual"/>
+                                                                                                                                                    
+                                                                                                                                                        <body name="B28" pos="0.0107 0 0">
+                                                                                                                                                            <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="7.4927e-05" diaginertia="5.87e-10 5.87e-10 3.74635e-11"/>
+                                                                                                                                                            <joint name="J0_28" class="joint_y"/>
+                                                                                                                                                            <joint name="J1_28" class="joint_z"/>
+                                                                                                                                                            <geom name="G28" class="chain_piece"/>
+                                                                                                                                                            <geom name="G28_vis" class="chain_piece_visual"/>
+                                                                                                                                                        
+                                                                                                                                                            <body name="B29" pos="0.0107 0 0">
+                                                                                                                                                                <inertial pos="0 0 0" quat="0.707107 0 0.707107 0" mass="7.4927e-05" diaginertia="5.87e-10 5.87e-10 3.74635e-11"/>
+                                                                                                                                                                <joint name="J0_29" class="joint_y"/>
+                                                                                                                                                                <joint name="J1_29" class="joint_z"/>
+                                                                                                                                                                <geom name="G29" class="chain_piece"/>
+                                                                                                                                                                <geom name="G29_vis" class="chain_piece_visual"/>
+                                                                                                                                                            
+                                                                                                                                                                <body name="ball" pos="0.0255 0 0">
+                                                                                                                                                                    <geom class="ball" name="ball_geom"/>
+                                                                                                                                                                    <geom class="ball_visual" name="ball_geom_visual"/>
+                                                                                                                                                                </body>
+                                                                                                                                                            </body>
+                                                                                                                                                        </body>
+                                                                                                                                                    </body>
+                                                                                                                                                </body>
+                                                                                                                                            </body>
+                                                                                                                                        </body>
+                                                                                                                                    </body>
+                                                                                                                                </body>
+                                                                                                                            </body>
+                                                                                                                        </body>
+                                                                                                                    </body>
+                                                                                                                </body>
+                                                                                                            </body>
+                                                                                                        </body>
+                                                                                                    </body>
+                                                                                                </body>
+                                                                                            </body>
+                                                                                        </body>
+                                                                                    </body>
+                                                                                </body>
+                                                                            </body>
+                                                                        </body>
+                                                                    </body>
+                                                                </body>
+                                                            </body>
+                                                        </body>
+                                                    </body>
+                                                </body>
+                                            </body>
+                                        </body>
+                                    </body>
+                                </body>
+                            </body>
+                        </body>
+                    </body>
+                </body>
+            </body>
+        </body>
+    </worldbody>
+</mujoco>

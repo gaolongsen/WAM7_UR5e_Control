@@ -1,0 +1,122 @@
+<!-- ======================================================
+	The Barrett WAM 7 DoF with 282-Hand and Track system setup as in the AgMan Lab @ UNM
+
+	Last edits 	: 7Jun'22
+    Editor: Longsen Gao
+    E-Mail: longsengao@gmail.com
+
+====================================================== -->
+
+<mujoco model="wam_7dof">
+
+    <option integrator="Euler" solver="Newton" iterations="30" tolerance="1e-10" jacobian="sparse" cone="pyramidal" timestep="0.002" gravity="0 0 -9.8"/>
+    <compiler coordinate="local" angle="radian" meshdir="meshes/" texturedir="textures/"/>
+     
+    <default>
+        <joint type="hinge" limited="true" pos="0 0 0" axis="0 0 1" frictionloss="1" damping="1"/>
+        <default class="viz">
+            <geom type="mesh" contype="0" conaffinity="0" group="2" rgba="0.7 0.7 0.7 1" density="0"/>
+        </default>
+        <default class="col">
+            <geom type="mesh" contype="0" conaffinity="1" group="3" rgba="0.5 0.6 0.7 1" density="0"/>
+        </default>
+        <default class="x_axis">
+            <geom contype="0" conaffinity="0" group="1" rgba="1 0 0 1"
+                  type="cylinder" size=".01 0.15" pos="0.15 0 0" euler="0 1.570796327 0"/>
+        </default>
+        <default class="y_axis">
+            <geom contype="0" conaffinity="0" group="1" rgba="0 1 0 1"
+                  type="cylinder" size=".01 0.15" pos="0 0.15 0" euler="1.570796327 0 0"/>
+        </default>
+        <default class="z_axis">
+            <geom contype="0" conaffinity="0" group="1" rgba="0 0 1 1"
+                  type="cylinder" size=".01 0.15" pos="0 0 0.15" euler="0 0 0"/>
+        </default>
+        <default class="wam/bhand">
+			<geom type="mesh" contype="0" conaffinity="1" group="2" rgba="0.5 0.6 0.7 1"/>			
+		</default>
+		<default class="wam/bhandViz">
+			<geom type="mesh" contype="0" conaffinity="0" group="2" rgba="0.7 0.8 0.8 1"/>
+		</default>
+
+        <default class="joint_y">
+            <joint pos="-0.00535 0 0" axis="0 1 0" group="3" limited="false" damping="0.0001" frictionloss="0"/>
+        </default>
+
+        <default class="joint_z">
+            <joint pos="-0.00535 0 0" axis="0 0 1" group="3" limited="false" damping="0.0001" frictionloss="0"/>
+        </default>
+        
+        <default class="chain_piece">         
+            <geom size="0.001 0.00427" quat="0.707107 0 0.707107 0" type="capsule" contype="0" conaffinity="1" 
+                group="3" rgba="0.5 0.6 0.7 1" density="0"/>
+        </default>
+        
+        <default class="ball">
+            <geom type="sphere" size="0.02" mass="0.021" contype="0" conaffinity="1" group="3" rgba="1.0 0.0 0.0 1"/>
+        </default>
+
+        <default class="chain_piece_visual">
+            <geom size="0.001 0.00535" quat="0.707107 0 0.707107 0" type="capsule" contype="0" conaffinity="0" 
+                group="2" rgba="0.7 0.7 0.7 1" density="0"/>
+        </default>
+
+        <default class="ball_visual">
+            <geom type="sphere" size="0.02" contype="0" conaffinity="0" group="2" rgba="1.0 0.0 0.0 1" density="0"/>
+        </default>
+
+        <default class="Track_visual">
+            <geom type="mesh" contype="0" conaffinity="1" group="2" rgba="0.5 0.6 0.7 1"/>
+        </default>
+
+        <camera fovy="60" />
+        <motor gear="0.8"/>
+        <velocity kv="10"/>
+        <position kp="5"/>
+
+    </default>
+
+    <visual>
+        <rgba haze="0.15 0.25 0.35 1"/>
+        <quality shadowsize="2048"/>
+        <map stiffness="700" shadowscale="0.5" fogstart="10" fogend="15" zfar="40" haze="0.3" />
+    </visual>
+
+    <asset>
+        <include file="WAM_assets.xml"/>
+    </asset>
+
+    <worldbody>
+        <light directional="true" diffuse=".2 .2 .2" specular="0 0 0" pos="0 0 5" dir="0 0 -1" castshadow="false"/>
+        <light mode="targetbodycom" target="WAM_Link_1" directional="false" diffuse="2 2 2" specular="0.3 0.3 0.3" pos="0 0 4.0" dir="0 0 -1"/>
+        <geom name="floor" pos="0 0 0" size="2 2 .25" type="plane" material="matplane" condim="3" solref="-16000 -200"/>
+        <geom class="x_axis"/>
+        <geom class="y_axis"/>
+        <geom class="z_axis"/>
+        <!-- Object 
+        <body pos="0.0 -1.0 0.5" name="object0" >
+            <freejoint/>
+            <geom pos="0 0 0" mesh="can_mesh" class="col" type="mesh" solimp="0.998 0.998 0.001" solref="0.001 1" density="100" friction="0.95 0.3 0.1" material="coke" group="1" condim="4"/>
+            <geom pos="0 0 0" mesh="can_mesh" class="col" type="mesh" material="coke"  conaffinity="0" contype="1" group="1" mass="0.0001"/>
+            <site name="object0" pos="0 0 0" size="0.02 0.02 0.02" rgba="1 0 0 1" type="sphere"/>
+            <site rgba="0 0 0 0" size="0.005" pos="0 0 -0.06" name="can_bottom_site"/>
+            <site rgba="0 0 0 0" size="0.005" pos="0 0 0.04" name="can_top_site"/>
+            <site rgba="0 0 0 0" size="0.005" pos="0.025 0.025 0" name="can_horizontal_radius_site"/>
+        </body>-->
+        <!-- Table 
+        <geom name="workbench_down" pos="0.0 -1.0 0.2" size="0.45 0.3 0.2" type="box" rgba="1 1 1 1" material="BasketMat" />
+        -->
+        <!--Two Walls
+        <geom name="wall_1" pos="0 -1.4 1" size="2.5 2.5 1" type="plane" quat="0.707107 -0.707107 0 0" rgba="0.95 0.95 0.95 1" material="BasketMat" />
+        <geom name="wall_2" pos="-2.185 0 1" size="2.5 2.5 1" type="plane" quat="0.707107 0 0.707107 0" rgba="0.95 0.95 0.95 1" material="BasketMat" /> -->  
+        <include file="WAM_mesh_collision.xml"/>
+        <body name="endeff_des" pos="0 0 0.84" mocap="true">
+            <geom class="viz" type="sphere" size="0.01" rgba="1 0 0 0.3" />
+        </body>
+    </worldbody>
+
+    <actuator>
+      <include file="WAM_actuators.xml"/>  
+    </actuator>
+
+</mujoco>

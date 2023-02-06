@@ -1,0 +1,61 @@
+<mujoco>
+    <mesh file="Track_D.stl"/>
+    <mesh file="base_link_fine.stl"/>
+    <mesh file="base_link_convex.stl"/>
+    <mesh file="shoulder_link_fine.stl"/>
+    <mesh file="shoulder_link_convex_decomposition_p1.stl"/>
+    <mesh file="shoulder_link_convex_decomposition_p2.stl"/>
+    <mesh file="shoulder_link_convex_decomposition_p3.stl"/>
+    <mesh file="shoulder_pitch_link_fine.stl"/>
+    <mesh file="shoulder_pitch_link_convex.stl"/>
+    <mesh file="upper_arm_link_fine.stl"/>
+    <mesh file="upper_arm_link_convex_decomposition_p1.stl"/>
+    <mesh file="upper_arm_link_convex_decomposition_p2.stl"/>
+    <mesh file="elbow_link_fine.stl"/>
+    <mesh file="elbow_link_convex.stl"/>
+    <mesh file="forearm_link_fine.stl"/>
+    <mesh file="forearm_link_convex_decomposition_p1.stl"/>
+    <mesh file="forearm_link_convex_decomposition_p2.stl"/>
+    <mesh file="wrist_yaw_link_fine.stl"/>
+    <mesh file="wrist_yaw_link_convex_decomposition_p1.stl"/>
+    <mesh file="wrist_yaw_link_convex_decomposition_p2.stl"/>
+    <mesh file="wrist_pitch_link_fine.stl"/>
+    <mesh file="wrist_pitch_link_convex_decomposition_p1.stl"/>
+    <mesh file="wrist_pitch_link_convex_decomposition_p2.stl"/>
+    <mesh file="wrist_pitch_link_convex_decomposition_p3.stl"/>
+    <mesh file="wrist_palm_link_fine.stl"/>
+    <mesh file="wrist_palm_link_convex.stl"/>
+    <mesh file="bhand_palm_fine.stl"/>
+		<mesh file="bhand_palm_link_convex_decomposition_p1.stl"/>
+		<mesh file="bhand_palm_link_convex_decomposition_p2.stl"/>
+		<mesh file="bhand_palm_link_convex_decomposition_p3.stl"/>
+		<mesh file="bhand_palm_link_convex_decomposition_p4.stl"/>
+		<mesh file="bhand_finger_prox_link_fine.stl"/>
+		<mesh file="bhand_finger_prox_link_convex_decomposition_p1.stl"/>
+		<mesh file="bhand_finger_prox_link_convex_decomposition_p2.stl"/>
+		<mesh file="bhand_finger_prox_link_convex_decomposition_p3.stl"/>
+		<mesh file="bhand_finger_med_link_fine.stl"/>
+		<mesh file="bhand_finger_dist_link_fine.stl"/>
+		<mesh file="bhand_finger_dist_link_convex.stl"/>
+    <mesh file="can.stl" name="can_mesh" scale="2.0 2.0 2.0" />
+
+    <texture name="texplane" type="2d" builtin="checker" rgb1=".2 .3 .4" rgb2=".1 0.15 0.2" width="512"
+                 height="512" mark="cross" markrgb=".8 .8 .8"/>
+    <material name="matplane" reflectance="0.3" texture="texplane" texrepeat="1 1" texuniform="true"/>
+        
+        <!-- [OBJ] Coke Can -->
+        <texture file="Fanta.png" name="tex-can"/>
+        <material name="coke" reflectance="0.7" texrepeat="5 5" texture="tex-can" texuniform="true"/>
+        <material name="table_mat" specular="0" shininess="0.5" reflectance="0" rgba="0.93 0.93 0.93 1"/>
+        
+        <!--  [Track & Table] Skin and Materials   -->
+        <texture name="texsponge" type="2d" file="sponge.png"/>
+        <texture name="texmarble" type="cube" file="marble.png"/>
+        <material name="matmarble" texture="texmarble" rgba=".7 .7 .7 1"/>
+        <material name="matsponge" texture="texsponge" specular="0.3"/>
+
+        <material name="RobMat" specular="0.9" shininess="0.5" reflectance="0" rgba="0.7 0.7 0.7 1" emission="0.1" />
+        <material name="GriMat" specular="0.9" shininess="0.5" reflectance="0" rgba="0.1 0.1 0.1 1" emission="0.1" />
+        <material name="BasketMat" specular="0" shininess="0" reflectance="0" rgba="0.26 0.16 0.16796875 1" emission="0" />
+        <material name="Light" specular="0" shininess="0.6" reflectance="0.9" rgba="0.5 0.5 1 1" emission="0.7" />
+</mujoco>

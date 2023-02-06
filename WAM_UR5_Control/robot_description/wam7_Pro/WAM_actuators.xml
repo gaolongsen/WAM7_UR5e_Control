@@ -1,0 +1,10 @@
+<mujoco>
+  <motor name="joint1_motor" joint="wam/joints/base_base" gear="5"/>
+  <motor name="joint2_motor" joint="wam/joints/base_yaw" gear="5"/>
+  <motor name="joint3_motor" joint="wam/joints/shoulder_pitch_joint" gear="5"/>
+  <motor name="joint4_motor" joint="wam/joints/shoulder_yaw" gear="5"/>
+  <motor name="joint5_motor" joint="wam/joints/elbow_pitch" gear="5"/>
+  <motor name="joint6_motor" joint="wam/joints/wrist_yaw" gear="5"/>
+  <motor name="joint7_motor" joint="wam/joints/wrist_pitch" gear="5"/>
+  <motor name="joint8_motor" joint="wam/joints/palm_yaw" gear="5"/>
+</mujoco>
