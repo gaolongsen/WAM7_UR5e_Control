@@ -1,16 +1,9 @@
 # WAM(7-DOF) and UR5e(6-DOF) for Python
 
 [![A Python Robotics Package](https://raw.githubusercontent.com/petercorke/robotics-toolbox-python/master/.github/svg/py_collection.min.svg)](https://github.com/petercorke/robotics-toolbox-python)
-[![Powered by Spatial Maths](https://raw.githubusercontent.com/petercorke/spatialmath-python/master/.github/svg/sm_powered.min.svg)](https://github.com/petercorke/spatialmath-python)
-[![QUT Centre for Robotics Open Source](https://github.com/qcr/qcr.github.io/raw/master/misc/badge.svg)](https://qcr.github.io)
-
-[![PyPI version](https://badge.fury.io/py/roboticstoolbox-python.svg)](https://badge.fury.io/py/roboticstoolbox-python)
+[![Powered by Spatial Maths](https://raw.githubusercontent.com/petercorke/spatialmath-python/master/.github/svg/sm_powered.min.svg)](https://github.com/petercorke/spatialmath-python)[![PyPI version](https://badge.fury.io/py/roboticstoolbox-python.svg)](https://badge.fury.io/py/roboticstoolbox-python)
 [![Anaconda version](https://anaconda.org/conda-forge/roboticstoolbox-python/badges/version.svg)](https://anaconda.org/conda-forge/roboticstoolbox-python)
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/roboticstoolbox-python.svg)
-
-[![Build Status](https://github.com/petercorke/robotics-toolbox-python/workflows/Test/badge.svg?branch=master)](https://github.com/petercorke/robotics-toolbox-python/actions?query=workflow%3ATest)
-[![Coverage](https://codecov.io/gh/petercorke/robotics-toolbox-python/branch/master/graph/badge.svg)](https://codecov.io/gh/petercorke/robotics-toolbox-python)
-[![PyPI - Downloads](https://img.shields.io/pypi/dw/roboticstoolbox-python)](https://pypistats.org/packages/roboticstoolbox-python)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/roboticstoolbox-python.svg)[![Build Status](https://github.com/petercorke/robotics-toolbox-python/workflows/Test/badge.svg?branch=master)](https://github.com/petercorke/robotics-toolbox-python/actions?query=workflow%3ATest)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 <table style="border:0px">
@@ -18,12 +11,10 @@
 <td style="border:0px">
 <img src="https://raw.githubusercontent.com/gaolongsen/WAM7_UR5e_Control/main/WAM_UR5_Control/Pic/lobo.png" width="200"></td>
 <td style="border:0px">
-A Python implementation of the <a href="https://github.com/petercorke/robotics-toolbox-matlab">Robotics Toolbox for MATLAB<sup>&reg;</sup></a>
+The project is for two robot arm—— WAM 7 Dof(with Barrett 282H robot hand) and UR5e 6 Dof(with 2 DoF gripper) working together in our Lab enviroment. Welcome anyone come up with any question and give us your avaliable corrections about that!
 <ul>
-<li><a href="https://github.com/petercorke/robotics-toolbox-python">GitHub repository </a></li>
+<li><a href="https://github.com/gaolongsen/WAM7_UR5e_Control/tree/main/WAM_UR5_Control">GitHub repository </a></li>
 <li><a href="https://petercorke.github.io/robotics-toolbox-python">Documentation</a></li>
-<li><a href="#6">ICRA Paper</a></li>
-<li><a href="https://github.com/petercorke/robotics-toolbox-python/wiki">Wiki (examples and details)</a></li>
 </ul>
 </td>
 </tr>
@@ -33,8 +24,7 @@ A Python implementation of the <a href="https://github.com/petercorke/robotics-t
 
 ## Contents
 
-- [Synopsis](#1)
-- [Getting going](#2)
+- [Before Getting going](#2)
 - [Tutorials](#3)
 - [Code Examples](#4)
 - [Toolbox Research Applications](#5)
@@ -44,51 +34,19 @@ A Python implementation of the <a href="https://github.com/petercorke/robotics-t
 
 <br>
 
-<a id='1'></a>
+## Before Getting going
 
-## Synopsis
+Our Project depends on Petercorke Lib - **Robotics Toolbox for Python** which is well known in robotics simulation. You need to make sure you have installed this package in your anaconda environment. We strongly recommend using python 3.8 to make sure all environment setups include anaconda, cuda and so on be the same as what we did to make sure your can run it successfully without any problem. All python >3.6 should also be fine.
 
-This toolbox brings robotics-specific functionality to Python, and leverages
-Python's advantages of portability, ubiquity and support, and the capability of
-the open-source ecosystem for linear algebra (numpy, scipy), graphics
-(matplotlib, three.js, WebGL), interactive development (jupyter, jupyterlab,
-mybinder.org), and documentation (sphinx).
+### Install Mujoco, Anaconda, Cuda, Mujoco_py on your Ubuntu 20.04 system
 
-The Toolbox provides tools for representing the kinematics and dynamics of
-serial-link manipulators - you can easily create your own in Denavit-Hartenberg
-form, import a URDF file, or use over 30 supplied models for well-known
-contemporary robots from Franka-Emika, Kinova, Universal Robotics, Rethink as
-well as classical robots such as the Puma 560 and the Stanford arm.
+*This part is only for our lab member tutorial.* We assume you know how to do that and all setup have been finished on your own PC. 
 
-The Toolbox contains fast implementations of kinematic operations. The forward
-kinematics and the manipulator Jacobian can be computed in less than 1 microsecond
-while numerical inverse kinematics can be solved in as little as 4 microseconds.
 
-The toolbox also supports mobile robots with functions for robot motion models
-(unicycle, bicycle), path planning algorithms (bug, distance transform, D\*,
-PRM), kinodynamic planning (lattice, RRT), localization (EKF, particle filter),
-map building (EKF) and simultaneous localization and mapping (EKF).
 
-The Toolbox provides:
+[Link for Google Doc tutorial.](https://docs.google.com/document/d/1OZ0ddXQztCEghgmXmJa1to4vAGpymkuLdKgb8dG8sik/edit?usp=sharing) 
 
-- code that is mature and provides a point of comparison for other
-  implementations of the same algorithms;
-- routines which are generally written in a straightforward manner which
-  allows for easy understanding, perhaps at the expense of computational
-  efficiency;
-- source code which can be read for learning and teaching;
-- backward compatability with the Robotics Toolbox for MATLAB
 
-The Toolbox leverages the [Spatial Maths Toolbox for Python](https://github.com/petercorke/spatialmath-python) to
-provide support for data types such as SO(n) and SE(n) matrices, quaternions, twists and spatial vectors.
-
-<br>
-
-<a id='2'></a>
-
-## Getting going
-
-You will need Python >= 3.6
 
 ### Using pip
 
