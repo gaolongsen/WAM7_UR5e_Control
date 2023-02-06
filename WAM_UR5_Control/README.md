@@ -69,7 +69,7 @@ pip3 install -e .
 
 ### Modify the Robotics Toolbox package
 
-For UR5 robot, you don't need to add anything for that due to the package has anything about. But for WAM, you need import WAM robot information to the toolbox package. We will contact with the the author of the toolbox and upload the WAM robot description to the package in the future. Go to this [link](https://github.com/gaolongsen/Package_Adding_WAM) to see how to import the WAM to the robotics toolbox package for python. 
+For UR5 robot, you don't need to add anything for that due to the package has anything about. But for WAM, you need import WAM robot information to the toolbox package. We will contact with the the author of the toolbox and upload the WAM robot description to the package in the future. Go to this [**link**](https://github.com/gaolongsen/Package_Adding_WAM) to see how to import the WAM to the robotics toolbox package for python. 
 
 ### Environment in Mujoco
 
