@@ -2,13 +2,11 @@
 # Contact: longsengao@gmail.com
 
 import numpy as np
-import time
 import threading
-from mujoco_robots.robots import MjWam7_pure, MjWam4
+from mujoco_robots.robots import MjWam7_pure
 
 if __name__ == "__main__":
     exit_flag = threading.Event()
-
 
     # define your controll callback:
     def control_callback(robot):  # the agrument is the MjRobot object
