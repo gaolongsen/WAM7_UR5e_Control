@@ -90,4 +90,4 @@ Inertia of moment for all components in our environment include satellite model,
 
 ### Update Notification:
 
-We will publish our coming IROS paper's code for the dislodging task with decentralized adaptive control algorithm implemented on robot arm(WAM and UR5e) soon. 
+- [ ] We will publish our coming IROS paper's code for the dislodging task with decentralized adaptive control algorithm implemented on robot arm(WAM and UR5e) soon. 
