@@ -86,7 +86,7 @@ Inertia of moment for all components in our environment include satellite model,
 
 <img src="https://raw.githubusercontent.com/gaolongsen/WAM7_UR5e_Control/main/WAM_UR5_Control/Pic/IOM_Whole.png">
 
-
+![](https://cdn.staticaly.com/gh/JackTony123/picx-images-hosting@master/20230406/WAM_Hinge.2enxoc8jqm4.webp)
 
 ### Update Notification:
 
