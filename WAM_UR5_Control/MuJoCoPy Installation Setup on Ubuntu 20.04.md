@@ -34,13 +34,13 @@ https://mujoco.org/download/mujoco210-linux-x86_64.tar.gz
 3. extract the library to the .mujoco folder
 4. include these lines in .bashrc file(terminal command: **gedit** **~/.****bashrc**):
 
-export LD_LIBRARY_PATH=/home/user_name/.mujoco/mujoco210/bin
+`export LD_LIBRARY_PATH=/home/user_name/.mujoco/mujoco210/bin`
 
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/nvidia
+`export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/nvidia`
 
-export PATH="$LD_LIBRARY_PATH:$PATH"
+`export PATH="$LD_LIBRARY_PATH:$PATH"`
 
-export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libGLEW.so
+`export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libGLEW.so`
 
 
 
@@ -83,7 +83,6 @@ export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libGLEW.so
 
 
  **Step 5** **reboot your machine**
-
 
 
  **Step 6** **run these commands**
